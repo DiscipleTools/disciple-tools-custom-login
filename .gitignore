@@ -1,2 +1,14 @@
-vendor/*
-composer.lock
+vendor/bin/*
+vendor/dealerdirect/*
+vendor/squizlabs/*
+vendor/wp-coding-standards/*
+
+node_modules/*
+bower_components/*
+
+.idea
+.env
+
+config.rb
+package-lock.json
+npm-debug.log
