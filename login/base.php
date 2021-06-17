@@ -13,12 +13,20 @@ class Disciple_Tools_Custom_Login_Base
 
     public function __construct() {
         add_filter( 'dt_non_standard_front_page', [ $this, 'dt_non_standard_front_page' ], 10, 1 );
+        add_filter( 'dt_allow_rest_access', [ $this, '_authorize_url' ], 10, 1 );
     }
 
     public function theme_redirect() {
         $path = get_theme_file_path('template-blank.php');
         include( $path );
         die();
+    }
+
+    public function _authorize_url( $authorized ){
+        if ( isset( $_SERVER['REQUEST_URI'] ) && strpos( sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ) ), 'location_grid/v1/' ) !== false ) {
+            $authorized = true;
+        }
+        return $authorized;
     }
 
     public function dt_non_standard_front_page( $url ) {
@@ -32,20 +40,12 @@ class Disciple_Tools_Custom_Login_Base
             $current_url = dt_get_url_path();
             // home
             if ( empty($current_url) ) {
-                $url = home_url( '/' );
-            }
-            else if ( 'examples' === $current_url ) {
-                $url = home_url( '/examples' );
-            }
-            else if ( 'projects' === $current_url ) {
-                $url = home_url( '/projects' );
+                $url = home_url( '/profile' );
             }
             else if ( 'login' === $current_url ) {
                 $url = home_url( '/login' );
             }
-            else if ( 'facts' === $current_url ) {
-                $url = home_url( '/facts' );
-            }
+
         }
         return $url;
     }
@@ -77,7 +77,7 @@ class Disciple_Tools_Custom_Login_Base
                 'map_key' => DT_Mapbox_API::get_key(),
                 'root' => esc_url_raw( rest_url() ),
                 'nonce' => wp_create_nonce( 'wp_rest' ),
-                'details' => $content = get_option('landing_content'),
+//                'details' => $content = get_option('landing_content'),
                 'translations' => [
                     'add' => __( 'Add Magic', 'disciple_tools' ),
                 ],
@@ -94,6 +94,11 @@ class Disciple_Tools_Custom_Login_Base
         wp_footer();
     }
     public function scripts() {
+//        $dt_custom_login = dt_custom_login_vars();
+//        if ( isset( $dt_custom_login['google_captcha_client_key'] ) && ! empty( $dt_custom_login['google_captcha_client_key'] ) ){
+//            wp_enqueue_script('captcha', 'https://www.google.com/recaptcha/enterprise.js?render='.$dt_custom_login['google_captcha_client_key'], [], '3');
+//        }
+
     }
     public function _print_scripts(){
         // @link /disciple-tools-theme/dt-assets/functions/enqueue-scripts.php
@@ -107,6 +112,7 @@ class Disciple_Tools_Custom_Login_Base
             'mapbox-cookie',
             'mapbox-search-widget',
             'google-search-widget',
+//            'captcha'
         ];
 
         global $wp_scripts;

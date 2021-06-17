@@ -18,7 +18,7 @@ class Disciple_Tools_Custom_Login_Login extends Disciple_Tools_Custom_Login_Base
         parent::__construct();
 
         $url = dt_get_url_path();
-        if ( ( 'login' === substr( $url, 0, 5 ) ) && ! dt_is_rest() ) {
+        if ( ( 'login' === substr( $url, 0, 5 ) )  ) {
             require_once( plugin_dir_path(__DIR__) . '/login/processor.php');
             add_action( "template_redirect", [ $this, 'theme_redirect' ] );
 

@@ -53,12 +53,18 @@ class Disciple_Tools_Custom_Login_Menu {
             <h2 class="nav-tab-wrapper">
                 <a href="<?php echo esc_attr( $link ) . 'general' ?>"
                    class="nav-tab <?php echo esc_html( ( $tab == 'general' || !isset( $tab ) ) ? 'nav-tab-active' : '' ); ?>">General</a>
+                <a href="<?php echo esc_attr( $link ) . 'help' ?>"
+                   class="nav-tab <?php echo esc_html( ( $tab == 'help' ) ? 'nav-tab-active' : '' ); ?>">Help</a>
             </h2>
 
             <?php
             switch ($tab) {
                 case "general":
                     $object = new Disciple_Tools_Custom_Login_Tab_General();
+                    $object->content();
+                    break;
+                case "help":
+                    $object = new Disciple_Tools_Custom_Login_Tab_Help();
                     $object->content();
                     break;
                 default:
@@ -236,5 +242,146 @@ class Disciple_Tools_Custom_Login_Tab_General {
         return $dt_custom_login;
 
     }
+
+}
+
+
+
+/**
+ * Class Disciple_Tools_Plugin_Starter_Template_Tab_General
+ */
+class Disciple_Tools_Custom_Login_Tab_Help {
+    public function content() {
+        ?>
+        <div class="wrap">
+            <div id="poststuff">
+                <div id="post-body" class="metabox-holder columns-2">
+                    <div id="post-body-content">
+                        <!-- Main Column -->
+
+                        <?php $this->captcha() ?>
+
+                        <?php $this->google_sso() ?>
+
+                        <?php $this->facebook_sso() ?>
+
+                        <!-- End Main Column -->
+                    </div><!-- end post-body-content -->
+                    <div id="postbox-container-1" class="postbox-container">
+                        <!-- Right Column -->
+
+                        <?php $this->right_column() ?>
+
+                        <!-- End Right Column -->
+                    </div><!-- postbox-container 1 -->
+                    <div id="postbox-container-2" class="postbox-container">
+                    </div><!-- postbox-container 2 -->
+                </div><!-- post-body meta box container -->
+            </div><!--poststuff end -->
+        </div><!-- wrap end -->
+        <?php
+    }
+
+    public function captcha() {
+        ?>
+        <!-- Box -->
+        <table class="widefat striped">
+            <thead>
+            <tr>
+                <th>Captcha Setup</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>
+                    <a href="https://morweb.org/support-post/set-up-google-recaptcha">https://morweb.org/support-post/set-up-google-recaptcha</a><br>
+
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <br>
+        <!-- End Box -->
+        <?php
+    }
+
+    public function google_sso() {
+        ?>
+        <!-- Box -->
+        <table class="widefat striped">
+            <thead>
+            <tr>
+                <th>Google SSO Setup</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>
+                    Content
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <br>
+        <!-- End Box -->
+        <?php
+    }
+
+    public function facebook_sso() {
+        ?>
+        <!-- Box -->
+        <table class="widefat striped">
+            <thead>
+            <tr>
+                <th>Facebook SSO Setup</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>
+                    <p>Reference:<br>
+                    <a href="https://developers.facebook.com/docs/facebook-login/web">https://developers.facebook.com/docs/facebook-login/web</a><br></p>
+
+                    <p>Things you'll need:</p>
+                    <ul>
+                        <li>A Facebook Developer Account</li>
+                        <li>A registered Facebook App with Basic Settings configured</li>
+                    </ul>
+
+                <p>
+                    <a href="https://developers.facebook.com/apps">https://developers.facebook.com/apps</a>
+                </p>
+
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <br>
+        <!-- End Box -->
+        <?php
+    }
+
+    public function right_column() {
+        ?>
+        <!-- Box -->
+        <table class="widefat striped">
+            <thead>
+            <tr>
+                <th>Information</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>
+                    Content
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <br>
+        <!-- End Box -->
+        <?php
+    }
+
 
 }

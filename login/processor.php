@@ -22,7 +22,14 @@ class Disciple_Tools_Custom_Login_Registration
 
     public function __construct() {
         require_once( plugin_dir_path(__DIR__) . 'vendor/autoload.php' );
+        add_filter( 'dt_allow_rest_access', [ $this, '_authorize_url' ], 10, 1 );
         add_action( 'rest_api_init', array( $this,  'add_api_routes' ) );
+    }
+    public function _authorize_url( $authorized ){
+        if ( isset( $_SERVER['REQUEST_URI'] ) && strpos( sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ) ), 'location_grid/v1/' ) !== false ) {
+            $authorized = true;
+        }
+        return $authorized;
     }
 
     public function add_api_routes() {
@@ -519,6 +526,7 @@ class Disciple_Tools_Custom_Login_Registration
      *
      */
     public function registration_form() {
+        $dt_custom_login = dt_custom_login_vars();
         ?>
         <style>
             meter{
@@ -577,9 +585,13 @@ class Disciple_Tools_Custom_Login_Registration
             </form>
         </div>
 
-        <?php // @codingStandardsIgnoreStart ?>
+        <?php // @codingStandardsIgnoreStart
+        if ( ! empty( $dt_custom_login['google_captcha_client_key'] ) ) :
+        ?>
         <script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit" async defer></script>
-        <?php // @codingStandardsIgnoreEnd ?>
+        <?php // @codingStandardsIgnoreEnd
+        endif;
+        ?>
         <script>
             var strength = {
                 0: "Worst",
@@ -674,7 +686,7 @@ class Disciple_Tools_Custom_Login_Registration
 //        add_user_meta( $user_id, 'location_grid_phone_number', null, true );
 //        add_user_meta( $user_id, 'location_grid_address', null, true );
 //        add_user_meta( $user_id, 'location_grid_affiliation_key', null, true );
-        add_user_meta( $user_id, 'location_grid_meta', get_location_grid_meta_array(), true );
+//        add_user_meta( $user_id, 'location_grid_meta', get_location_grid_meta_array(), true );
 
         add_user_to_blog( get_current_blog_id(), $user_id, 'subscriber' ); // add user to ZumeProject site.
 //        add_user_to_blog( '12', $user_id, 'subscriber' ); // add user to Zume Vision
@@ -685,7 +697,7 @@ class Disciple_Tools_Custom_Login_Registration
             wp_set_current_user( $user_id, $user->user_login );
             wp_set_auth_cookie( $user_id );
             do_action( 'wp_login', $user->user_login, $user );
-            wp_safe_redirect( home_url('/profile') );
+            wp_safe_redirect( dt_custom_login_url('redirect') );
             exit;
         } else {
             $error->add( __METHOD__, __( 'No new user found.', 'location_grid' ) );
@@ -707,9 +719,13 @@ function location_grid_signup_header() {
     $dt_custom_login = dt_custom_login_vars();
     ?>
     <!--Google Sign in-->
-    <?php // @codingStandardsIgnoreStart ?>
+    <?php // @codingStandardsIgnoreStart
+    if ( ! empty( $dt_custom_login['google_sso_key'] ) ) :
+    ?>
     <script src="https://apis.google.com/js/platform.js?onload=start" async defer></script>
-    <?php // @codingStandardsIgnoreEnd ?>
+    <?php // @codingStandardsIgnoreEnd
+        endif;
+        ?>
 
     <script>
         function start() {

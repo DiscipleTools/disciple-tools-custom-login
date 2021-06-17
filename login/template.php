@@ -1,5 +1,6 @@
 <?php
 $dt_custom_login = dt_custom_login_vars();
+
 /**
  * Catch Logout Request and Process Immediately
  */
