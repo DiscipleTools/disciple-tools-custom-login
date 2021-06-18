@@ -88,99 +88,6 @@ class DT_Custom_Login_Email
      * @see https://code.tutsplus.com/tutorials/creating-a-custom-wordpress-registration-form-plugin--cms-20968
      * @see https://css-tricks.com/password-strength-meter/
      */
-    public function registration_form() {
-        $dt_custom_login = dt_custom_login_vars();
-        ?>
-        <style>
-            meter{
-                width:100%;
-            }
-            /* Webkit based browsers */
-            meter[value="1"]::-webkit-meter-optimum-value { background: red; }
-            meter[value="2"]::-webkit-meter-optimum-value { background: yellow; }
-            meter[value="3"]::-webkit-meter-optimum-value { background: orange; }
-            meter[value="4"]::-webkit-meter-optimum-value { background: green; }
-
-            /* Gecko based browsers */
-            meter[value="1"]::-moz-meter-bar { background: red; }
-            meter[value="2"]::-moz-meter-bar { background: yellow; }
-            meter[value="3"]::-moz-meter-bar { background: orange; }
-            meter[value="4"]::-moz-meter-bar { background: green; }
-
-        </style>
-        <div id="loginform">
-            <form action="" method="post" data-abide novalidate>
-                <?php wp_nonce_field( 'login_form', 'login_form_nonce' ) ?>
-                <div data-abide-error class="alert callout" style="display: none;">
-                    <p><i class="fi-alert"></i><?php esc_html_e( 'There are some errors in your form.', 'location_grid' ) ?></p>
-                </div>
-                <div class="grid-container">
-                    <div class="grid-x grid-margin-x">
-                        <div class="cell small-12">
-                            <label for="email"><?php esc_html_e( 'Email', 'location_grid' ) ?> <strong>*</strong></label>
-                            <input type="text" name="email" id="email" value="" required pattern="email">
-                        </div>
-                        <div class="cell small-12">
-                            <label><?php esc_html_e( 'Password Required', 'location_grid' ) ?> <strong>*</strong>
-                                <input type="password" id="password" name="password" placeholder="yeti4preZ" aria-errormessage="password-error-1" required >
-                                <span class="form-error" id="password-error-1">
-                                <?php esc_html_e( 'Password required', 'location_grid' ) ?>
-                              </span>
-                            </label>
-                            <meter max="4" id="password-strength-meter" value="0"></meter>
-                        </div>
-                        <div class="cell small-12">
-                            <label><?php esc_html_e( 'Re-enter Password', 'location_grid' ) ?> <strong>*</strong>
-                                <input type="password" placeholder="yeti4preZ" aria-errormessage="password-error-2" data-equalto="password">
-                                <span class="form-error" id="password-error-2">
-                                <?php esc_html_e( 'Passwords do not match. Please, try again.', 'location_grid' ) ?>
-                              </span>
-                            </label>
-                        </div>
-                    </div>
-                    <div class="cell small-12">
-                        <div class="g-recaptcha" id="g-recaptcha"></div><br>
-                    </div>
-                    <div class="cell small-12">
-                        <input type="submit" class="button button-primary" id="submit"  value="<?php esc_html_e( 'Register', 'location_grid' ) ?>" disabled />
-                    </div>
-                </div>
-            </form>
-        </div>
-
-        <?php // @codingStandardsIgnoreStart
-        if ( ! empty( $dt_custom_login['google_captcha_client_key'] ) ) :
-        ?>
-        <script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit" async defer></script>
-        <?php // @codingStandardsIgnoreEnd
-        endif;
-        ?>
-        <script>
-            var strength = {
-                0: "Worst",
-                1: "Bad",
-                2: "Weak",
-                3: "Good",
-                4: "Strong"
-            }
-            var password = document.getElementById('password');
-            var meter = document.getElementById('password-strength-meter');
-
-            password.addEventListener('input', function() {
-                var val = password.value;
-                var result = zxcvbn(val);
-
-                // Update the password strength meter
-                meter.value = result.score;
-
-            });
-        </script>
-        <?php // @codingStandardsIgnoreStart ?>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/zxcvbn/4.2.0/zxcvbn.js"></script>
-        <?php // @codingStandardsIgnoreEnd ?>
-        <?php
-    }
-
     public function custom_registration_function() {
         $dt_custom_login = dt_custom_login_vars();
         $error = new WP_Error();
@@ -242,7 +149,14 @@ class DT_Custom_Login_Email
             return $error;
         }
 
-        add_user_to_blog( get_current_blog_id(), $user_id, 'subscriber' ); // add user to site.
+        if ( is_multisite() ) {
+            add_user_to_blog( get_current_blog_id(), $user_id, 'subscriber' ); // add user to site.
+        }
+
+        // @todo set the default user role
+
+        // @todo send to location based on user role
+
 
         // log user in
         $user = get_user_by( 'id', $user_id );
