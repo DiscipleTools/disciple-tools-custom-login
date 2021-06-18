@@ -115,94 +115,12 @@ class Disciple_Tools_Custom_Login_Tab_General {
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
-                    <td colspan="2">
-                        Required fields.
-                    </td>
-                </tr>
-                <tr>
-                    <td style="font-size:1.2em; text-align: center;">
-                        <?php
-                        if ( empty( $dt_custom_login['login_url'] ) ) {
-                            echo '&#10060;';
-                        } else {
-                            echo '&#9989;';
-                        }
-                        ?>
-                    </td>
-                    <td>
-                        <strong>Login URL</strong><br>
-                        <strong><?php echo esc_url( site_url('/')) ?></strong><input class="regular-text" name="login_url" placeholder="Login Page" value="<?php echo $dt_custom_login['login_url'] ?>"/> <br>
-                    </td>
-                </tr>
-                <tr>
-                    <td style="font-size:1.2em; text-align: center;">
-                        <?php
-                        if ( empty( $dt_custom_login['redirect_url'] ) ) {
-                            echo '&#10060;';
-                        } else {
-                            echo '&#9989;';
-                        }
-                        ?>
-                    </td>
-                    <td>
-                        <strong>Redirect URL</strong> <br>(when someone successfully logs in, where do they get redirected)<br>
-                        <strong><?php echo esc_url( site_url('/')) ?></strong><input class="regular-text" name="redirect_url" placeholder="Redirect Page" value="<?php echo $dt_custom_login['redirect_url'] ?>"/> <br>
-                    </td>
-                </tr>
-                <tr>
-                    <td style="font-size:1.2em; text-align: center;">
-                        <?php
-                        if ( empty( $dt_custom_login['google_captcha_client_key'] ) ) {
-                            echo '&#10060;';
-                        } else {
-                            echo '&#9989;';
-                        }
-                        ?>
-                    </td>
-                    <td>
-                        <strong>Google Captcha Key</strong><br>
-                        <input class="regular-text" name="google_captcha_client_key" placeholder="Google Captcha Client Key" value="<?php echo $dt_custom_login['google_captcha_client_key'] ?>"/><br>
-                        <input class="regular-text" name="google_captcha_server_secret_key" placeholder="Google Captcha Server Secret Key" value="<?php echo $dt_custom_login['google_captcha_server_secret_key'] ?>"/><br>
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="2">
-                        Optional features.
-                    </td>
-                </tr>
-                <tr>
-                    <td style="font-size:1.2em; text-align: center;">
-                        <?php
-                        if ( empty( $dt_custom_login['google_sso_key'] ) ) {
-                            echo '&#10060;';
-                        } else {
-                            echo '&#9989;';
-                        }
-                        ?>
-                    </td>
-                    <td>
-                        <strong>Add Google API oAuth Login Key</strong><br>
-                        <input class="regular-text" name="google_sso_key" placeholder="Google SSO Login/Registration oAuth Key" value="<?php echo $dt_custom_login['google_sso_key'] ?>"/><br>
-                    </td>
-                </tr>
-
-                <tr>
-                    <td style="font-size:1.2em; text-align: center;">
-                        <?php
-                        if ( empty( $dt_custom_login['facebook_public_key'] ) ) {
-                            echo '&#10060;';
-                        } else {
-                            echo '&#9989;';
-                        }
-                        ?>
-                    </td>
-                    <td>
-                        <strong>Facebook SSO Login/Registration Secret Key</strong><br>
-                        <input class="regular-text" name="facebook_public_key" placeholder="Facebook Public Key" value="<?php echo $dt_custom_login['facebook_public_key'] ?>"/><br>
-                        <input class="regular-text" name="facebook_secret_key" placeholder="Facebook Secret Key" value="<?php echo $dt_custom_login['facebook_secret_key'] ?>"/><br>
-                    </td>
-                </tr>
+                <?php
+                /**
+                 * Use this action to display admin fields for additional login
+                 */
+                do_action('dt_custom_login_admin_fields', $dt_custom_login );
+                ?>
                 <tr>
                     <td>
                         <button class="button" type="submit">Save</button>
@@ -217,32 +135,21 @@ class Disciple_Tools_Custom_Login_Tab_General {
     }
 
     public function process_login_configurations(){
+
         $dt_custom_login = dt_custom_login_vars();
+
         // process POST
         if ( isset( $_POST[ 'login_nonce' ] )
             && wp_verify_nonce( sanitize_key( wp_unslash( $_POST[ 'login_nonce' ] ) ), 'login' . get_current_user_id() ) )  {
 
-            foreach( $dt_custom_login as $index => $value ) {
-                if ( ! isset( $dt_custom_login[$index] ) ) {
-                    $dt_custom_login[$index] = $value;
-                }
-                if ( isset( $_POST[$index] ) ) {
-                    if ( empty( $_POST[$index] ) ) {
-                        $dt_custom_login[$index] = '';
-                    }
-                    else {
-                        $dt_custom_login[$index] = trim( sanitize_text_field( wp_unslash( $_POST[$index] ) ) );
-                    }
-                }
-            }
+            $post_vars = dt_recursive_sanitize_array($_POST);
+            $dt_custom_login = apply_filters( 'dt_custom_login_admin_update_fields', $post_vars );
 
             update_option( 'dt_custom_login', $dt_custom_login, true );
         }
 
         return $dt_custom_login;
-
     }
-
 }
 
 

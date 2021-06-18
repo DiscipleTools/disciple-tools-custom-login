@@ -76,8 +76,18 @@ class Disciple_Tools_Custom_Login {
 
     private function __construct() {
         require_once( 'login/functions.php');
-        require_once( 'login/base.php');
-        require_once( 'login/login-url.php');
+        require_once( 'login/page.php');
+        require_once( 'login/email.php');
+
+        // additional login methods
+        $format_files = scandir( plugin_dir_path( __FILE__ ) . '/additional-logins/' );
+        if ( !empty( $format_files )) {
+            foreach ($format_files as $file) {
+                if (substr( $file, -4, '4' ) === '.php') {
+                    require_once( plugin_dir_path( __FILE__ ) . '/additional-logins/' . $file );
+                }
+            }
+        }
 
         if ( is_admin() ) {
             require_once( 'admin/admin-menu-and-tabs.php' ); // adds starter admin page and section for plugin

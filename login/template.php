@@ -52,7 +52,7 @@ switch ($request_action) {
         if ( $http_post ) {
             if ( isset( $_POST['retrieve_password_nonce'] ) && wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['retrieve_password_nonce'] ) ), 'retrieve_password' ) ) {
 
-                $form_errors = location_grid_retrieve_password();
+                $form_errors = DT_Custom_Login_Email::retrieve_password();
                 if ( ! is_wp_error( $form_errors ) ) {
                     $sent = true;
                 }
@@ -65,9 +65,9 @@ switch ($request_action) {
 
         if ( isset( $_GET['error'] ) ) {
             if ( 'invalidkey' == $_GET['error'] ) {
-                $form_errors->add( 'invalidkey', __( 'Your password reset link appears to be invalid. Please request a new link below.', 'location_grid' ) );
+                $form_errors->add( 'invalidkey', __( 'Your password reset link appears to be invalid. Please request a new link below.', 'dt_custom_login' ) );
             } elseif ( 'expiredkey' == $_GET['error'] ) {
-                $form_errors->add( 'expiredkey', __( 'Your password reset link has expired. Please request a new link below.', 'location_grid' ) );
+                $form_errors->add( 'expiredkey', __( 'Your password reset link has expired. Please request a new link below.', 'dt_custom_login' ) );
             }
         }
 
@@ -86,8 +86,7 @@ switch ($request_action) {
                     <div class="cell callout medium-6 large-4">
                         <div class="grid-x grid-padding-x grid-padding-y">
                             <div class="cell center">
-                                <p><img src="<?php echo esc_url( get_theme_file_uri( '/assets/images/location_grid-logo-white.png' ) ) ?>" alt="location_grid logo" /></p>
-                                <h1 style="color:gray;font-size: 14px;margin:0;padding:5px;font-weight: normal;"><?php esc_html_e( "Get new password", 'location_grid' ) ?></h1>
+                                <h1 style="color:gray;font-size: 14px;margin:0;padding:5px;font-weight: normal;"><?php esc_html_e( "Get new password", 'dt_custom_login' ) ?></h1>
                             </div>
                             <?php if ( ! empty( $form_errors->errors ) ) : ?>
                                 <div class="cell alert callout">
@@ -102,7 +101,7 @@ switch ($request_action) {
                                         <form name="lostpasswordform" id="lostpasswordform" action="<?php echo esc_url( dt_custom_login_url( 'lostpassword' )); ?>" method="post">
                                             <?php wp_nonce_field( 'retrieve_password', 'retrieve_password_nonce', false, true ) ?>
                                             <p>
-                                                <label for="user_login" ><?php echo esc_html__( 'Email Address', 'location_grid' ); ?><br />
+                                                <label for="user_login" ><?php echo esc_html__( 'Email Address', 'dt_custom_login' ); ?><br />
                                                     <input type="text" name="user_login" id="user_login" class="input" value="<?php echo esc_attr( $user_login_response ); ?>" size="20" /></label>
                                             </p>
                                             <?php
@@ -113,10 +112,10 @@ switch ($request_action) {
                                              */
                                             do_action( 'lostpassword_form' ); ?>
                                             <input type="hidden" name="redirect_to" value="<?php echo esc_attr( $redirect_to ); ?>" />
-                                            <p><input type="submit" name="wp-submit" id="wp-submit" class="button button-primary button-large" value="<?php echo esc_html__( 'Get New Password', 'location_grid' ); ?>" /></p>
+                                            <p><input type="submit" name="wp-submit" id="wp-submit" class="button button-primary button-large" value="<?php echo esc_html__( 'Get New Password', 'dt_custom_login' ); ?>" /></p>
                                         </form>
                                     <?php elseif ( $sent ): ?>
-                                        <?php echo esc_html__( 'Your password reset email has been sent. Check your email or junk mail for the link to reset your password.', 'location_grid' ) ?>
+                                        <?php echo esc_html__( 'Your password reset email has been sent. Check your email or junk mail for the link to reset your password.', 'dt_custom_login' ) ?>
                                     <?php endif; ?>
 
                                 </div>
@@ -168,7 +167,7 @@ switch ($request_action) {
         $form_errors = new WP_Error();
 
         if ( isset( $_POST['pass1'] ) && $_POST['pass1'] != $_POST['pass2'] ) {
-            $form_errors->add( 'password_reset_mismatch', __( 'The passwords do not match.', 'location_grid' ) );
+            $form_errors->add( 'password_reset_mismatch', __( 'The passwords do not match.', 'dt_custom_login' ) );
         }
 
         /**
@@ -193,7 +192,6 @@ switch ($request_action) {
                 <div class="cell medium-3 large-4"></div>
                 <div class="cell callout medium-6 large-4">
                     <div class="grid-x grid-padding-x grid-padding-y">
-                        <div class="cell center"><img src="<?php echo esc_url( get_theme_file_uri( '/assets/images/location_grid-logo-white.png' ) ) ?>" /></div>
                         <div class="cell"><?php echo sprintf( 'Your password is reset. %s You can login here %', '<a href="' . esc_url( dt_custom_login_url( 'login' ) ) . '">', '</a>' ) ?></div>
                     </div>
                 </div>
@@ -231,9 +229,7 @@ switch ($request_action) {
                     <div class="cell callout medium-6 large-4">
                         <div class="grid-x grid-padding-x grid-padding-y">
                             <div class="cell center">
-                                <img src="<?php echo esc_url( get_theme_file_uri( '/assets/images/location_grid-logo-white.png' ) ) ?>" alt="location_grid logo"/>
-                                <h1 style="color:gray;font-size: 14px;margin:0;padding:5px;font-weight: normal;"><?php esc_html_e( "Reset Password", 'location_grid' ) ?></h1>
-
+                                <h1 style="color:gray;font-size: 14px;margin:0;padding:5px;font-weight: normal;"><?php esc_html_e( "Reset Password", 'dt_custom_login' ) ?></h1>
                             </div>
                             <?php if ( ! empty( $form_errors->errors ) ) :?>
                                 <div class="cell alert callout">
@@ -247,21 +243,21 @@ switch ($request_action) {
                                     <form name="resetpassform" id="resetpassform" action="<?php echo esc_url( dt_custom_login_url( 'resetpass' ) ); ?>" method="post" autocomplete="off" data-abide novalidate>
                                         <input type="hidden" id="user_login" value="<?php echo esc_attr( $rp_login ); ?>" autocomplete="off" />
 
-                                        <p>
-                                            <label><?php esc_html_e( 'Password Required', 'location_grid' ) ?> <strong>*</strong>
+                                        <div>
+                                            <label><?php esc_html_e( 'Password Required', 'dt_custom_login' ) ?> <strong>*</strong>
                                                 <input type="password" id="pass1" name="pass1" placeholder="yeti4preZ" aria-errormessage="password-error-1" required >
                                                 <span class="form-error" id="password-error-1">
-                                                    <?php esc_html_e( 'Password required', 'location_grid' ) ?>
+                                                    <?php esc_html_e( 'Password required', 'dt_custom_login' ) ?>
                                                 </span>
                                             </label>
                                             <meter max="4" id="password-strength-meter" value="0"></meter>
                                         <p id="password-strength-text"></p>
-                                        </p>
+                                        </div>
                                         <p>
-                                            <label><?php esc_html_e( 'Re-enter Password', 'location_grid' ) ?> <strong>*</strong>
+                                            <label><?php esc_html_e( 'Re-enter Password', 'dt_custom_login' ) ?> <strong>*</strong>
                                                 <input type="password" name="pass2" placeholder="yeti4preZ" aria-errormessage="password-error-2" data-equalto="pass1">
                                                 <span class="form-error" id="password-error-2">
-                                                    <?php esc_html_e( 'Passwords do not match. Please, try again.', 'location_grid' ) ?>
+                                                    <?php esc_html_e( 'Passwords do not match. Please, try again.', 'dt_custom_login' ) ?>
                                                 </span>
                                             </label>
                                         </p>
@@ -282,7 +278,7 @@ switch ($request_action) {
                                         ?>
                                         <input type="hidden" name="rp_key" value="<?php echo esc_attr( $rp_key ); ?>" />
 
-                                        <p><input type="submit" name="wp-submit" id="wp-submit" class="button button-primary button-large" value="<?php esc_html_e( 'Reset Password', 'location_grid' ); ?>" /></p>
+                                        <p><input type="submit" name="wp-submit" id="wp-submit" class="button button-primary button-large" value="<?php esc_html_e( 'Reset Password', 'dt_custom_login' ); ?>" /></p>
 
                                     </form>
 
@@ -328,7 +324,7 @@ switch ($request_action) {
         break;
 
     case 'register' :
-        $register = Disciple_Tools_Custom_Login_Registration::instance();
+        $register = DT_Custom_Login_Email::instance();
         $reg_status = $register->custom_registration_function();
         ?>
 
@@ -341,20 +337,20 @@ switch ($request_action) {
                         <div class="grid-x grid-padding-x grid-padding-y">
                             <div class="cell center" style="padding-bottom: 0;">
                                 <span style="font-weight: bolder;font-size:2.5em;">
-                                    <?php echo esc_html__( "Let's get started.", 'location_grid' ) ?>
+                                    <?php echo esc_html__( "Let's get started.", 'dt_custom_login' ) ?>
                                 </span>
-                                <h1 style="color:gray;font-size: 14px;margin:0;padding:5px;font-weight: normal;"><?php esc_html_e( "Register", 'location_grid' ) ?></h1>
+                                <h1 style="color:gray;font-size: 14px;margin:0;padding:5px;font-weight: normal;"><?php esc_html_e( "Register", 'dt_custom_login' ) ?></h1>
                             </div>
 
                             <div class="cell">
                                 <?php if ( isset( $dt_custom_login['google_sso_key'] ) && ! empty( $dt_custom_login['google_sso_key'] ) ) : ?>
                                     <p class="google_elements" style="display:none;">
-                                        <?php location_grid_google_sign_in_button() ?>
+                                        <?php dt_custom_login_google_sign_in_button() ?>
                                     </p>
                                 <?php endif; ?>
                                 <?php if ( isset( $dt_custom_login['facebook_public_key'] ) && ! empty( $dt_custom_login['facebook_public_key'] ) ) : ?>
                                     <p class="facebook_elements" style="display:none;">
-                                        <?php location_grid_facebook_login_button(); ?>
+                                        <?php dt_custom_login_facebook_login_button(); ?>
                                     </p>
                                 <?php endif; ?>
 
@@ -385,13 +381,13 @@ switch ($request_action) {
                         <p>
                             <?php if ( ! isset( $_GET['checkemail'] ) || ! in_array( wp_unslash( $_GET['checkemail'] ), array( 'confirm', 'newpass' ) ) ) : ?>
 
-                                <a href="<?php echo esc_url( dt_custom_login_url( 'home' ) ) ?>"><?php esc_html_e( 'Home', 'location_grid' ) ?></a>
+                                <a href="<?php echo esc_url( dt_custom_login_url( 'home' ) ) ?>"><?php esc_html_e( 'Home', 'dt_custom_login' ) ?></a>
                                 &nbsp;|&nbsp;
-                                <a href="<?php echo esc_url( dt_custom_login_url( 'login' ) ) ?>"><?php esc_html_e( 'Login', 'location_grid' ) ?></a>
+                                <a href="<?php echo esc_url( dt_custom_login_url( 'login' ) ) ?>"><?php esc_html_e( 'Login', 'dt_custom_login' ) ?></a>
                                 &nbsp;|&nbsp;
-                                <a href="<?php echo esc_url( dt_custom_login_url( 'register' ) ) ?>"><?php esc_html_e( 'Register', 'location_grid' ) ?></a>
+                                <a href="<?php echo esc_url( dt_custom_login_url( 'register' ) ) ?>"><?php esc_html_e( 'Register', 'dt_custom_login' ) ?></a>
                                 &nbsp;|&nbsp;
-                                <a href="<?php echo esc_url( dt_custom_login_url( 'lostpassword' ) ); ?>"><?php esc_html_e( 'Lost your password?', 'location_grid' ); ?></a>
+                                <a href="<?php echo esc_url( dt_custom_login_url( 'lostpassword' ) ); ?>"><?php esc_html_e( 'Lost your password?', 'dt_custom_login' ); ?></a>
 
                             <?php endif; ?>
                         </p>
@@ -402,13 +398,13 @@ switch ($request_action) {
         </div>
 
         <?php
-//        location_grid_login_styles();
+//        dt_custom_login_login_styles();
 //        get_footer();
         break;
 
     case 'confirmation' :
         if ( ! isset( $_GET['request_id'] ) ) {
-            wp_die( esc_html__( 'Invalid request.', 'location_grid' ) );
+            wp_die( esc_html__( 'Invalid request.', 'dt_custom_login' ) );
         }
 
         $request_id = (int) $_GET['request_id'];
@@ -417,7 +413,7 @@ switch ($request_action) {
             $key    = sanitize_text_field( wp_unslash( $_GET['confirm_key'] ) );
             $result = wp_validate_user_request_key( $request_id, $key );
         } else {
-            $result = new WP_Error( 'invalid_key', __( 'Invalid key', 'location_grid' ) );
+            $result = new WP_Error( 'invalid_key', __( 'Invalid key', 'dt_custom_login' ) );
         }
 
         if ( is_wp_error( $result ) ) {
@@ -439,7 +435,7 @@ switch ($request_action) {
 
         $message = _wp_privacy_account_request_confirmed_message( $request_id );
 
-        login_header( __( 'User action confirmed.', 'location_grid' ), $message );
+        login_header( __( 'User action confirmed.', 'dt_custom_login' ), $message );
         login_footer();
         exit; // @todo possibly remove
 
@@ -455,26 +451,26 @@ switch ($request_action) {
                     <div class="cell callout medium-6 large-4">
                         <div class="grid-x grid-padding-x grid-padding-y">
                             <div class="cell center">
-                                <!-- <img src="<?php echo esc_url( get_theme_file_uri( '/assets/images/location_grid-logo-white.png' ) ) ?>" alt="location_grid logo" /> -->
-                                <h1 style="color:gray;font-size: 14px;margin:0;padding:5px;font-weight: normal;"><?php esc_html_e( "Login", 'location_grid' ) ?></h1>
+                                <!-- <img src="<?php echo esc_url( get_theme_file_uri( '/assets/images/dt_custom_login-logo-white.png' ) ) ?>" alt="dt_custom_login logo" /> -->
+                                <h1 style="color:gray;font-size: 14px;margin:0;padding:5px;font-weight: normal;"><?php esc_html_e( "Login", 'dt_custom_login' ) ?></h1>
                             </div>
                             <?php
                             if ( isset( $_GET['login'] ) && $_GET['login'] === 'failed' ) {
                                 ?>
                                 <div class="callout warning cell center">
-                                    <?php echo esc_html__( 'Username or password does not match. Try again.', 'location_grid' ); ?>
+                                    <?php echo esc_html__( 'Username or password does not match. Try again.', 'dt_custom_login' ); ?>
                                 </div>
                                 <?php
                             }
                             ?>
                             <?php if ( isset( $dt_custom_login['google_sso_key'] ) && ! empty( $dt_custom_login['google_sso_key'] ) ) : ?>
                                     <p class="google_elements" style="display:none;">
-                                        <?php location_grid_google_sign_in_button() ?>
+                                        <?php dt_custom_login_google_sign_in_button() ?>
                                     </p>
                                 <?php endif; ?>
                                 <?php if ( isset( $dt_custom_login['facebook_public_key'] ) && ! empty( $dt_custom_login['facebook_public_key'] ) ) : ?>
                                     <p class="facebook_elements" style="display:none;">
-                                        <?php location_grid_facebook_login_button(); ?>
+                                        <?php dt_custom_login_facebook_login_button(); ?>
                                     </p>
                                 <?php endif; ?>
 
@@ -486,10 +482,10 @@ switch ($request_action) {
                                         'id_username' => 'user',
                                         'id_password' => 'pass',
                                         'value_remember' => true,
-                                        'label_username' => __( 'Email Address', 'location_grid' ),
-                                        'label_password' => __( 'Password', 'location_grid' ),
-                                        'label_remember' => __( 'Remember Me', 'location_grid' ),
-                                        'label_log_in' => __( 'Login', 'location_grid' ),
+                                        'label_username' => __( 'Email Address', 'dt_custom_login' ),
+                                        'label_password' => __( 'Password', 'dt_custom_login' ),
+                                        'label_remember' => __( 'Remember Me', 'dt_custom_login' ),
+                                        'label_log_in' => __( 'Login', 'dt_custom_login' ),
                                         );
                                         wp_login_form( $args );
                                     ?>
@@ -505,13 +501,13 @@ switch ($request_action) {
                         <p>
                         <?php if ( ! isset( $_GET['checkemail'] ) || ! in_array( wp_unslash( $_GET['checkemail'] ), array( 'confirm', 'newpass' ) ) ) : ?>
 
-                             <a href="<?php echo esc_url( dt_custom_login_url( 'home' ) ) ?>"><?php esc_html_e( 'Home', 'location_grid' ) ?></a>
+                             <a href="<?php echo esc_url( dt_custom_login_url( 'home' ) ) ?>"><?php esc_html_e( 'Home', 'dt_custom_login' ) ?></a>
                                 &nbsp;|&nbsp;
-                                <a href="<?php echo esc_url( dt_custom_login_url( 'login' ) ) ?>"><?php esc_html_e( 'Login', 'location_grid' ) ?></a>
+                                <a href="<?php echo esc_url( dt_custom_login_url( 'login' ) ) ?>"><?php esc_html_e( 'Login', 'dt_custom_login' ) ?></a>
                                 &nbsp;|&nbsp;
-                                <a href="<?php echo esc_url( dt_custom_login_url( 'register' ) ) ?>"><?php esc_html_e( 'Register', 'location_grid' ) ?></a>
+                                <a href="<?php echo esc_url( dt_custom_login_url( 'register' ) ) ?>"><?php esc_html_e( 'Register', 'dt_custom_login' ) ?></a>
                                 &nbsp;|&nbsp;
-                                <a href="<?php echo esc_url( dt_custom_login_url( 'lostpassword' ) ); ?>"><?php esc_html_e( 'Lost your password?', 'location_grid' ); ?></a>
+                                <a href="<?php echo esc_url( dt_custom_login_url( 'lostpassword' ) ); ?>"><?php esc_html_e( 'Lost your password?', 'dt_custom_login' ); ?></a>
 
                         <?php endif; ?>
                         </p>
