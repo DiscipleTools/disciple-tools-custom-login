@@ -17,7 +17,7 @@ function dt_custom_login_defaults() {
 }
 
 
-class Disciple_Tools_Custom_Login_Base
+class Disciple_Tools_Custom_Login_Base extends DT_Custom_Login_Page_Base
 {
     private static $_instance = null;
     public static function instance() {
@@ -28,6 +28,7 @@ class Disciple_Tools_Custom_Login_Base
     } // End instance()
 
     public function __construct() {
+        parent::__construct();
 
         add_filter( 'register_dt_custom_login_vars', [ $this, 'register_dt_custom_login_vars'], 10, 1 );
         if ( is_admin() ) {
@@ -108,8 +109,6 @@ class Disciple_Tools_Custom_Login_Base
             }
         }
 
-
-
         return $post_vars;
     }
 
@@ -173,142 +172,6 @@ class Disciple_Tools_Custom_Login_Base
             </td>
         </tr>
         <?php
-    }
-
-    public function theme_redirect() {
-        $path = get_theme_file_path('template-blank.php');
-        include( $path );
-        die();
-    }
-
-    public function _header(){
-        do_action( 'dt_custom_login_head_top' );
-        wp_head();
-        $this->header_style();
-        $this->header_javascript();
-        do_action( 'dt_custom_login_head_bottom' );
-
-    }
-    public function header_style(){
-        ?>
-        <style>
-            body {
-                background: white;
-            }
-        </style>
-        <?php
-    }
-    public function _browser_tab_title( $title ){
-        return 'Location Grid';
-    }
-    public function header_javascript(){
-        $dt_custom_login = dt_custom_login_vars();
-        ?>
-        <!--Google Sign in-->
-        <?php // @codingStandardsIgnoreStart
-        if ( ! empty( $dt_custom_login['google_sso_key'] ) ) :
-            ?>
-            <script src="https://apis.google.com/js/platform.js?onload=start" async defer></script>
-        <?php // @codingStandardsIgnoreEnd
-        endif;
-        ?>
-
-        <script>
-            function start() {
-                gapi.load('auth2', function() {
-                    auth2 = gapi.auth2.init({
-                        client_id: '<?php echo esc_attr( $dt_custom_login['google_sso_key'] ); ?>',
-                        scope: 'profile email'
-                    });
-                    if ( typeof gapi !== "undefined" ) {
-                        jQuery('.google_elements').show()
-                    }
-                });
-            }
-        </script>
-        <!-- Google Captcha -->
-        <script>
-            var verifyCallback = function(response) {
-                jQuery('#submit').prop("disabled", false);
-            };
-            var onloadCallback = function() {
-                grecaptcha.render('g-recaptcha', {
-                    'sitekey' : '<?php echo esc_attr( $dt_custom_login['google_captcha_client_key'] ); ?>',
-                    'callback' : verifyCallback,
-                });
-            };
-        </script>
-        <?php
-        ?>
-        <!-- script
-        ================================================== -->
-        <script>
-            let jsObject = [<?php echo json_encode([
-                'map_key' => DT_Mapbox_API::get_key(),
-                'root' => esc_url_raw( rest_url() ),
-                'nonce' => wp_create_nonce( 'wp_rest' ),
-//                'details' => $content = get_option('landing_content'),
-                'translations' => [
-                    'add' => __( 'Add Magic', 'disciple_tools' ),
-                ],
-            ]) ?>][0]
-
-            jQuery(document).ready(function(){
-                clearInterval(window.fiveMinuteTimer)
-            })
-        </script>
-        <?php
-        return true;
-    }
-    public function _footer(){
-        wp_footer();
-    }
-    public function scripts() {
-
-    }
-    public function _print_scripts(){
-        // @link /disciple-tools-theme/dt-assets/functions/enqueue-scripts.php
-        $allowed_js = [
-            'jquery',
-            'jquery-ui',
-            'site-js',
-            'lodash',
-            'moment',
-            'mapbox-gl',
-            'mapbox-cookie',
-            'mapbox-search-widget',
-            'google-search-widget',
-//            'captcha'
-        ];
-
-        global $wp_scripts;
-
-        if ( isset( $wp_scripts ) ){
-            foreach ( $wp_scripts->queue as $key => $item ){
-                if ( ! in_array( $item, $allowed_js ) ){
-                    unset( $wp_scripts->queue[$key] );
-                }
-            }
-        }
-        unset( $wp_scripts->registered['mapbox-search-widget']->extra['group'] );
-    }
-    public function _print_styles(){
-        // @link /disciple-tools-theme/dt-assets/functions/enqueue-scripts.php
-        $allowed_css = [
-            'foundation-css',
-            'jquery-ui-site-css',
-            'site-css',
-            'mapbox-gl-css',
-        ];
-
-        global $wp_styles;
-        if ( isset( $wp_styles ) ) {
-            foreach ($wp_styles->queue as $key => $item) {
-                if ( !in_array( $item, $allowed_css )) {
-                    unset( $wp_styles->queue[$key] );
-                }
-            }
-        }
     }
 
     public function body(){

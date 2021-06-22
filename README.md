@@ -1,25 +1,22 @@
 [![Build Status](https://travis-ci.com/DiscipleTools/disciple-tools-custom-login.svg?branch=master)](https://travis-ci.com/DiscipleTools/disciple-tools-custom-login)
 
-# Disciple Tools - Name
-
-Description Description Description Description Description Description Description
-Description Description Description Description Description Description Description
+# Disciple Tools - Custom Login
 
 ## Purpose
 
-Purpose purpose purpose purpose purpose purpose purpose purpose purpose purpose purpose
-Purpose purpose purpose purpose purpose purpose purpose purpose purpose purpose purpose
-
-Purpose purpose purpose purpose purpose purpose purpose purpose purpose purpose purpose
-Purpose purpose purpose purpose purpose purpose purpose purpose purpose purpose purpose
+Adds a custom login to Disciple Tools system.
 
 ## Usage
 
 #### Will Do
 
-- Item
-- Item
-- Item
+- Adds /login
+- Adds /login/?action=register
+- Adds /login/?action=logout
+- Adds /privacy-policy
+- Adds /terms-of-service
+- Adds /profile
+- Adds /reghold
 
 #### Will Not Do
 
@@ -44,7 +41,3 @@ code contributions are welcome using the [Pull Request](https://github.com/Disci
 system for git. For a more details on contribution see the
 [contribution guidelines](https://github.com/DiscipleTools/disciple-tools-custom-login/blob/master/CONTRIBUTING.md).
 
-
-## Screenshots
-
-![screenshot](documentation/community/starter-banners/banner-blue-green.png)

@@ -27,6 +27,8 @@ class DT_Custom_Login_Email
     public function __construct() {
         // api vars
         add_filter( 'register_dt_custom_login_vars', [ $this, 'register_dt_custom_login_vars'], 10, 1 );
+        add_action( 'dt_custom_login_head_bottom', [ $this, 'dt_custom_login_head_bottom' ], 20 );
+
         if ( is_admin() ) {
             add_action( 'dt_custom_login_admin_fields', [ $this, 'dt_custom_login_admin_fields' ], 20, 1 );
             add_filter( 'dt_custom_login_admin_update_fields', [ $this, 'dt_custom_login_admin_update_fields'], 10, 1 );
@@ -65,6 +67,24 @@ class DT_Custom_Login_Email
         </tr>
         <?php
     }
+
+    public function dt_custom_login_head_bottom() {
+        $dt_custom_login = dt_custom_login_vars();
+        ?>
+        <script>
+            var verifyCallback = function(response) {
+                jQuery('#submit').prop("disabled", false);
+            };
+            var onloadCallback = function() {
+                grecaptcha.render('g-recaptcha', {
+                    'sitekey' : '<?php echo esc_attr( $dt_custom_login['google_captcha_client_key'] ); ?>',
+                    'callback' : verifyCallback,
+                });
+            };
+        </script>
+        <?php
+    }
+
     public function dt_custom_login_admin_update_fields( $post_vars ) {
         if ( isset( $post_vars['google_captcha_client_key'] ) ) {
             $defaults = dt_custom_login_email();
