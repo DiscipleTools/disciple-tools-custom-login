@@ -13,7 +13,7 @@ function dt_custom_login_facebook_enabled() : bool {
 
 function dt_custom_login_facebook_defaults() {
     $defaults = get_option( 'dt_custom_login_facebook' );
-    if ( empty( $defaults) ) {
+    if ( empty( $defaults ) ) {
         $defaults = [
             'facebook_public_key' => '',
             'facebook_secret_key' => '',
@@ -34,6 +34,8 @@ class DT_Custom_Login_Facebook {
     }
 
     public function __construct() {
+
+        // @todo hidden until finished development
 //        add_filter( 'register_dt_custom_login_vars', [ $this, 'register_dt_custom_login_vars'], 10, 1 );
 //        if ( is_admin() ) {
 //            add_action('dt_custom_login_admin_fields', [ $this, 'dt_custom_login_admin_fields' ], 40, 1 );
@@ -41,7 +43,7 @@ class DT_Custom_Login_Facebook {
 //        }
 
         if ( dt_custom_login_facebook_enabled() ) {
-            require_once( plugin_dir_path(__DIR__) . 'vendor/autoload.php' );
+            require_once( plugin_dir_path( __DIR__ ) . 'vendor/autoload.php' );
             add_filter( 'dt_allow_rest_access', [ $this, '_authorize_url' ], 10, 1 );
             add_action( 'rest_api_init', array( $this,  'add_api_routes' ) );
 
@@ -51,7 +53,7 @@ class DT_Custom_Login_Facebook {
 
     public function register_dt_custom_login_vars( $vars ) {
         $defaults = dt_custom_login_facebook_defaults();
-        foreach( $defaults as $k => $v ) {
+        foreach ( $defaults as $k => $v ) {
             $vars[$k] = $v;
         }
         return $vars;
@@ -76,8 +78,8 @@ class DT_Custom_Login_Facebook {
             </td>
             <td>
                 <strong>Facebook SSO Login/Registration Secret Key</strong><br>
-                <input class="regular-text" name="facebook_public_key" placeholder="Facebook Public Key" value="<?php echo $dt_custom_login['facebook_public_key'] ?>"/><br>
-                <input class="regular-text" name="facebook_secret_key" placeholder="Facebook Secret Key" value="<?php echo $dt_custom_login['facebook_secret_key'] ?>"/><br>
+                <input class="regular-text" name="facebook_public_key" placeholder="Facebook Public Key" value="<?php echo esc_attr( $dt_custom_login['facebook_public_key'] ) ?>"/><br>
+                <input class="regular-text" name="facebook_secret_key" placeholder="Facebook Secret Key" value="<?php echo esc_attr( $dt_custom_login['facebook_secret_key'] ) ?>"/><br>
             </td>
         </tr>
         <?php
@@ -378,7 +380,7 @@ function dt_custom_login_facebook_login_button() {
     <script>
         window.fbAsyncInit = function() {
             FB.init({
-                appId      : '<?php echo esc_attr($dt_custom_login['facebook_public_key'] ) ?>',
+                appId      : '<?php echo esc_attr( $dt_custom_login['facebook_public_key'] ) ?>',
                 cookie     : true,
                 xfbml      : true,
                 version    : 'v3.2'
@@ -433,7 +435,7 @@ function dt_custom_login_facebook_login_button() {
                         .done(function (data) {
                             console.log(data)
                             if ( data ) {
-                                window.location = "<?php echo esc_url( home_url('/profile') ) ?>"
+                                window.location = "<?php echo esc_url( home_url( '/profile' ) ) ?>"
                             }
                         })
                         .fail(function (err) {
@@ -515,7 +517,7 @@ function dt_custom_login_facebook_link_account_button() {
                     // Logged into your app and Facebook.
                     console.log('fbLogIn facebook connected')
 
-                    jQuery('#facebook_login').attr('style', 'background-color: grey; width:100%;').append(' <img src="<?php echo dt_custom_login_spinner() ?>" width="15px" />')
+                    jQuery('#facebook_login').attr('style', 'background-color: grey; width:100%;').append(' <img src="<?php echo esc_url( dt_custom_login_spinner() ) ?>" width="15px" />')
 
                     let data = {
                         "token": response.authResponse.accessToken
@@ -531,7 +533,7 @@ function dt_custom_login_facebook_link_account_button() {
                         },
                     })
                         .done(function (data) {
-                            window.location = "<?php echo esc_url( home_url('/profile') ) ?>"
+                            window.location = "<?php echo esc_url( home_url( '/profile' ) ) ?>"
                         })
                         .fail(function (err) {
                             if ( err.responseJSON['message'] ) {

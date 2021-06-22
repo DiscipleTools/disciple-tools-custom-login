@@ -77,10 +77,10 @@ class Disciple_Tools_Custom_Login {
     private function __construct() {
         // magic link base
         require_once( 'pages/base.php' );
-        require_once( 'login/functions.php');
+        require_once( 'login/functions.php' );
 
         // pages
-        require_once( 'login/page.php');
+        require_once( 'login/page.php' );
         require_once( 'pages/privacy-policy.php' ); // {site}/privacy-policy
         require_once( 'pages/terms-of-service.php' ); // {site}/terms-of-service
         require_once( 'pages/profile.php' ); // {site}/profile

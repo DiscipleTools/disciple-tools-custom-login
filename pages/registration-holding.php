@@ -15,7 +15,7 @@ class Disciple_Tools_Custom_Login_Holding extends DT_Custom_Login_Page_Base
         parent::__construct();
 
         $url = dt_get_url_path();
-        if ( ( 'reghold' === substr( $url, 0, 7 ) )  ) {
+        if ( ( 'reghold' === substr( $url, 0, 7 ) ) ) {
             add_action( "template_redirect", [ $this, 'theme_redirect' ] );
 
             add_filter( 'dt_blank_access', function(){ return true;

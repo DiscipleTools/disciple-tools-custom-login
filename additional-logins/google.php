@@ -13,7 +13,7 @@ function dt_custom_login_google_enabled() : bool {
 
 function dt_custom_login_google_defaults() {
     $defaults = get_option( 'dt_custom_login_google' );
-    if ( empty( $defaults) ) {
+    if ( empty( $defaults ) ) {
         $defaults = [
             'google_sso_key' => '',
         ];
@@ -33,6 +33,8 @@ class DT_Custom_Login_Google {
     }
 
     public function __construct() {
+
+        // @todo hidden until finished development
 //        add_filter( 'register_dt_custom_login_vars', [ $this, 'register_dt_custom_login_vars'], 10, 1 );
 //        if ( is_admin() ) {
 //            add_action('dt_custom_login_admin_fields', [ $this, 'dt_custom_login_admin_fields' ], 30, 1 );
@@ -40,17 +42,17 @@ class DT_Custom_Login_Google {
 //        }
 
         if ( dt_custom_login_google_enabled() ) {
-            require_once( plugin_dir_path(__DIR__) . 'vendor/autoload.php' );
+            require_once( plugin_dir_path( __DIR__ ) . 'vendor/autoload.php' );
             add_filter( 'dt_allow_rest_access', [ $this, '_authorize_url' ], 10, 1 );
             add_action( 'rest_api_init', array( $this,  'add_api_routes' ) );
 
-            add_action( 'additional_login_buttons', [ $this, 'additional_login_buttons'], 20, 1 );
+            add_action( 'additional_login_buttons', [ $this, 'additional_login_buttons' ], 20, 1 );
             add_action( 'dt_custom_login_head_top', [ $this, 'dt_custom_login_head_top' ], 20 );
         }
     }
     public function register_dt_custom_login_vars( $vars ) {
         $defaults = dt_custom_login_google_defaults();
-        foreach( $defaults as $k => $v ) {
+        foreach ( $defaults as $k => $v ) {
             $vars[$k] = $v;
         }
         return $vars;
@@ -74,7 +76,7 @@ class DT_Custom_Login_Google {
             </td>
             <td>
                 <strong>Add Google API oAuth Login Key</strong><br>
-                <input class="regular-text" name="google_sso_key" placeholder="Google SSO Login/Registration oAuth Key" value="<?php echo $dt_custom_login['google_sso_key'] ?>"/><br>
+                <input class="regular-text" name="google_sso_key" placeholder="Google SSO Login/Registration oAuth Key" value="<?php echo esc_attr( $dt_custom_login['google_sso_key'] ) ?>"/><br>
             </td>
         </tr>
         <?php
@@ -114,7 +116,9 @@ class DT_Custom_Login_Google {
                     });
                 }
             </script>
+            <?php // @phpcs:disable ?>
             <script src="https://apis.google.com/js/platform.js?onload=renderButton" async defer></script>
+            <?php // @phpcs:enable ?>
             <style>
                 .abcRioButtonBlue {
                     width: 100% !important;
@@ -128,9 +132,9 @@ class DT_Custom_Login_Google {
     public function dt_custom_login_head_top() {
         $defaults = dt_custom_login_google_defaults();
         if ( isset( $defaults['google_sso_key'] ) && ! empty( $defaults['google_sso_key'] ) ) {
-        ?>
+            ?>
             <meta name="google-signin-client_id" content="20352038920-m4unhfjl5vfrk06clo5l8hudtobb8dq4.apps.googleusercontent.com">
-        <?php
+            <?php
         }
     }
 
@@ -174,7 +178,7 @@ class DT_Custom_Login_Google {
         /** @see https://developers.google.com/identity/sign-in/web/backend-auth */
 
         // Get $id_token via HTTPS POST.
-        $google_sso_key =  $dt_custom_login['google_sso_key'];
+        $google_sso_key = $dt_custom_login['google_sso_key'];
 
         $google_token = $params['token'];
 
@@ -396,41 +400,45 @@ function dt_custom_login_google_sign_in_button( $type = 'signin' ) {
     <div id="google_error"></div>
 
     <script>
-        jQuery('#google_signinButton').click(function() {
-            auth2.signIn().then(onSignIn);
-        });
+        jQuery(document).ready(function($) {
+            let gButton = jQuery('#google_signinButton')
+            gButton.click(function() {
+                auth2.signIn().then(onSignIn);
+            });
 
-        function onSignIn(googleUser) {
-            // Useful data for your client-side scripts:
-            jQuery('#google_signinButton').attr('style', 'background-color: grey; width:100%;').append(' <img src="<?php echo dt_custom_login_spinner() ?>" width="15px" />');
+            function onSignIn(googleUser) {
+                // Useful data for your client-side scripts:
+                gButton.attr('style', 'background-color: grey; width:100%;').append(' <img src="<?php echo esc_attr( dt_custom_login_spinner() ) ?>" width="15px" />');
 
-            let data = {
-                "token": googleUser.getAuthResponse().id_token
-            };
-            jQuery.ajax({
-                type: "POST",
-                data: JSON.stringify(data),
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                url: '<?php echo esc_url( rest_url( '/dt_custom_login/v1/register_via_google' ) ) ?>',
-                beforeSend: function(xhr) {
-                    xhr.setRequestHeader('X-WP-Nonce', '<?php echo esc_attr( wp_create_nonce( 'wp_rest' ) ) ?>');
-                },
-            })
-                .done(function (data) {
-                    console.log(data)
-                    window.location = "<?php echo esc_url( dt_custom_login_url('redirect') ) ?>"
+                let data = {
+                    "token": googleUser.getAuthResponse().id_token
+                };
+                jQuery.ajax({
+                    type: "POST",
+                    data: JSON.stringify(data),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    url: '<?php echo esc_url( rest_url( '/dt_custom_login/v1/register_via_google' ) ) ?>',
+                    beforeSend: function(xhr) {
+                        xhr.setRequestHeader('X-WP-Nonce', '<?php echo esc_attr( wp_create_nonce( 'wp_rest' ) ) ?>');
+                    },
                 })
-                .fail(function (err) {
-                    if ( err.responseJSON['message'] ) {
-                        jQuery('#google_error').text( err.responseJSON['message'] )
-                    } else {
-                        jQuery('#google_error').html( 'Oops. Something went wrong.' )
-                    }
-                    console.log("error")
-                    console.log(err)
-                })
-        }
+                    .done(function (data) {
+                        console.log(data)
+                        window.location = "<?php echo esc_url( dt_custom_login_url( 'redirect' ) ) ?>"
+                    })
+                    .fail(function (err) {
+                        if ( err.responseJSON['message'] ) {
+                            jQuery('#google_error').text( err.responseJSON['message'] )
+                        } else {
+                            jQuery('#google_error').html( 'Oops. Something went wrong.' )
+                        }
+                        console.log("error")
+                        console.log(err)
+                    })
+            }
+        })
+
     </script>
     <?php
 }
@@ -457,7 +465,7 @@ function dt_custom_login_google_link_account_button() {
 
         function onSignIn(googleUser) {
             // Useful data for your client-side scripts:
-            jQuery('#google_signinButton').attr('style', 'background-color: grey; width:100%;').append(' <img src="<?php echo dt_custom_login_spinner() ?>" width="15px" />');
+            jQuery('#google_signinButton').attr('style', 'background-color: grey; width:100%;').append(' <img src="<?php echo esc_url( dt_custom_login_spinner() ) ?>" width="15px" />');
 
             let data = {
                 "token": googleUser.getAuthResponse().id_token
@@ -473,7 +481,7 @@ function dt_custom_login_google_link_account_button() {
                 },
             })
                 .done(function (data) {
-                    window.location = "<?php echo esc_url( home_url('/profile') ) ?>"
+                    window.location = "<?php echo esc_url( home_url( '/profile' ) ) ?>"
                 })
                 .fail(function (err) {
                     if ( err.responseJSON['message'] ) {
@@ -502,6 +510,3 @@ function dt_custom_login_unlink_google_account( $user_id ) {
     return 1;
 }
 add_action( 'dt_custom_login_update_profile', 'dt_custom_login_unlink_google_account' );
-
-
-

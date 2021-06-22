@@ -4,7 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; } // Exit if accessed directly
 
 function dt_custom_login_email() {
     $defaults = get_option( 'dt_custom_login_captcha' );
-    if ( empty( $defaults) ) {
+    if ( empty( $defaults ) ) {
         $defaults = [
             'google_captcha_client_key' => '',
             'google_captcha_server_secret_key' => '',
@@ -26,18 +26,18 @@ class DT_Custom_Login_Email
 
     public function __construct() {
         // api vars
-        add_filter( 'register_dt_custom_login_vars', [ $this, 'register_dt_custom_login_vars'], 10, 1 );
+        add_filter( 'register_dt_custom_login_vars', [ $this, 'register_dt_custom_login_vars' ], 10, 1 );
         add_action( 'dt_custom_login_head_bottom', [ $this, 'dt_custom_login_head_bottom' ], 20 );
 
         if ( is_admin() ) {
             add_action( 'dt_custom_login_admin_fields', [ $this, 'dt_custom_login_admin_fields' ], 20, 1 );
-            add_filter( 'dt_custom_login_admin_update_fields', [ $this, 'dt_custom_login_admin_update_fields'], 10, 1 );
+            add_filter( 'dt_custom_login_admin_update_fields', [ $this, 'dt_custom_login_admin_update_fields' ], 10, 1 );
         }
     }
 
     public function register_dt_custom_login_vars( $vars ) {
         $defaults = dt_custom_login_email();
-        foreach( $defaults as $k => $v ) {
+        foreach ( $defaults as $k => $v ) {
             $vars[$k] = $v;
         }
         return $vars;
@@ -61,8 +61,8 @@ class DT_Custom_Login_Email
             </td>
             <td>
                 <strong>Google Captcha Key</strong><br>
-                <input class="regular-text" name="google_captcha_client_key" placeholder="Google Captcha Client Key" value="<?php echo $dt_custom_login['google_captcha_client_key'] ?>"/><br>
-                <input class="regular-text" name="google_captcha_server_secret_key" placeholder="Google Captcha Server Secret Key" value="<?php echo $dt_custom_login['google_captcha_server_secret_key'] ?>"/><br>
+                <input class="regular-text" name="google_captcha_client_key" placeholder="Google Captcha Client Key" value="<?php echo esc_attr( $dt_custom_login['google_captcha_client_key'] ) ?>"/><br>
+                <input class="regular-text" name="google_captcha_server_secret_key" placeholder="Google Captcha Server Secret Key" value="<?php echo esc_attr( $dt_custom_login['google_captcha_server_secret_key'] ) ?>"/><br>
             </td>
         </tr>
         <?php
@@ -123,7 +123,7 @@ class DT_Custom_Login_Email
         $args = array(
             'method' => 'POST',
             'body' => array(
-                'secret' =>  $dt_custom_login['google_captcha_server_secret_key'],
+                'secret' => $dt_custom_login['google_captcha_server_secret_key'],
                 'response' => trim( sanitize_text_field( wp_unslash( $_POST['g-recaptcha-response'] ) ) ),
             )
         );
@@ -197,7 +197,7 @@ class DT_Custom_Login_Email
             wp_set_current_user( $user_id, $user->user_login );
             wp_set_auth_cookie( $user_id );
             do_action( 'wp_login', $user->user_login, $user );
-            wp_safe_redirect( dt_custom_login_url('redirect') );
+            wp_safe_redirect( dt_custom_login_url( 'redirect' ) );
             exit;
         } else {
             $error->add( __METHOD__, __( 'No new user found.', 'location_grid' ) );
@@ -258,7 +258,7 @@ class DT_Custom_Login_Email
         // Redefining user_login ensures we return the right case in the email.
         $user_login = $user_data->user_login;
         $user_email = $user_data->user_email;
-        $key = DT_Custom_Login_Email::dt_custom_login_get_password_reset_key( $user_data );
+        $key = self::dt_custom_login_get_password_reset_key( $user_data );
 
         if ( is_wp_error( $key ) ) {
             return $key;
@@ -273,7 +273,7 @@ class DT_Custom_Login_Email
         $message .= sprintf( __( 'Username: %s' ), $user_login ) . "\r\n\r\n";
         $message .= __( 'If this was a mistake, just ignore this email and nothing will happen.' ) . "\r\n\r\n";
         $message .= __( 'To reset your password, visit the following address:' ) . "\r\n\r\n";
-        $message .= '<' . dt_custom_login_url('login') . "?action=rp&key=$key&login=" . rawurlencode( $user_login ) . ">\r\n";
+        $message .= '<' . dt_custom_login_url( 'login' ) . "?action=rp&key=$key&login=" . rawurlencode( $user_login ) . ">\r\n";
 
         /* translators: Password reset email subject. %s: Site name */
         $title = sprintf( __( '[%s] Password Reset' ), $site_name );

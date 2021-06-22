@@ -15,7 +15,7 @@ class DT_Custom_Login_Page_Base
     }
 
     public function theme_redirect() {
-        $path = get_theme_file_path('template-blank.php');
+        $path = get_theme_file_path( 'template-blank.php' );
         include( $path );
         die();
     }

@@ -4,7 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; } // Exit if accessed directly
 
 function dt_custom_login_defaults() {
     $defaults = get_option( 'dt_custom_login_defaults' );
-    if ( empty( $defaults) ) {
+    if ( empty( $defaults ) ) {
         $defaults = [
             'users_can_register' => get_option( 'users_can_register' ),
             'default_role' => 'registered',
@@ -30,14 +30,14 @@ class Disciple_Tools_Custom_Login_Base extends DT_Custom_Login_Page_Base
     public function __construct() {
         parent::__construct();
 
-        add_filter( 'register_dt_custom_login_vars', [ $this, 'register_dt_custom_login_vars'], 10, 1 );
+        add_filter( 'register_dt_custom_login_vars', [ $this, 'register_dt_custom_login_vars' ], 10, 1 );
         if ( is_admin() ) {
             add_action( 'dt_custom_login_admin_fields', [ $this, 'dt_custom_login_admin_fields' ], 5, 1 );
             add_filter( 'dt_custom_login_admin_update_fields', [ $this, 'dt_custom_login_admin_update_fields' ], 10, 1 );
         }
 
         $url = dt_get_url_path();
-        if ( ( 'login' === substr( $url, 0, 5 ) )  ) {
+        if ( ( 'login' === substr( $url, 0, 5 ) ) ) {
             add_action( "template_redirect", [ $this, 'theme_redirect' ] );
 
             add_filter( 'dt_blank_access', function(){ return true;
@@ -61,7 +61,7 @@ class Disciple_Tools_Custom_Login_Base extends DT_Custom_Login_Page_Base
 
     public function register_dt_custom_login_vars( $vars ) {
         $defaults = dt_custom_login_defaults();
-        foreach( $defaults as $k => $v ) {
+        foreach ( $defaults as $k => $v ) {
             $vars[$k] = $v;
         }
         return $vars;
@@ -121,9 +121,9 @@ class Disciple_Tools_Custom_Login_Base extends DT_Custom_Login_Page_Base
         </tr>
         <tr>
             <th scope="row"></th>
-            <td> <fieldset><legend class="screen-reader-text"><span><?php _e( 'Membership' ); ?></span></legend><label for="users_can_register">
+            <td> <fieldset><legend class="screen-reader-text"><span>Membership</span></legend><label for="users_can_register">
                         <input name="users_can_register" type="checkbox" id="users_can_register" value="1" <?php checked( '1', get_option( 'users_can_register' ) ); ?> />
-                        <?php _e( 'Anyone can register' ); ?></label>
+                        Anyone can register</label>
                 </fieldset>
             </td>
         </tr>
@@ -153,7 +153,7 @@ class Disciple_Tools_Custom_Login_Base extends DT_Custom_Login_Page_Base
             </td>
             <td>
                 <strong>Login URL</strong><br>
-                <strong><?php echo esc_url( site_url('/')) ?></strong><input class="regular-text" name="login_url" placeholder="Login Page" value="<?php echo $dt_custom_login['login_url'] ?>"/> <br>
+                <strong><?php echo esc_url( site_url( '/' ) ) ?></strong><input class="regular-text" name="login_url" placeholder="Login Page" value="<?php echo esc_url( $dt_custom_login['login_url'] ) ?>"/> <br>
             </td>
         </tr>
         <tr>
@@ -168,14 +168,14 @@ class Disciple_Tools_Custom_Login_Base extends DT_Custom_Login_Page_Base
             </td>
             <td>
                 <strong>Success URL</strong> <br>(when someone successfully logs in, where do they get redirected)<br>
-                <strong><?php echo esc_url( site_url('/')) ?></strong><input class="regular-text" name="redirect_url" placeholder="Redirect Page" value="<?php echo $dt_custom_login['redirect_url'] ?>"/> <br>
+                <strong><?php echo esc_url( site_url( '/' ) ) ?></strong><input class="regular-text" name="redirect_url" placeholder="Redirect Page" value="<?php echo esc_url( $dt_custom_login['redirect_url'] ) ?>"/> <br>
             </td>
         </tr>
         <?php
     }
 
     public function body(){
-        require_once( plugin_dir_path(__DIR__) . '/login/template.php');
+        require_once( plugin_dir_path( __DIR__ ) . '/login/template.php' );
     }
 }
 Disciple_Tools_Custom_Login_Base::instance();

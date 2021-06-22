@@ -106,7 +106,7 @@ class Disciple_Tools_Custom_Login_Tab_General {
         ?>
         <!-- Box -->
         <form method="post">
-            <?php wp_nonce_field('login'.get_current_user_id(), 'login_nonce' ) ?>
+            <?php wp_nonce_field( 'login'.get_current_user_id(), 'login_nonce' ) ?>
             <table class="widefat striped">
                 <thead>
                 <tr>
@@ -119,7 +119,7 @@ class Disciple_Tools_Custom_Login_Tab_General {
                 /**
                  * Use this action to display admin fields for additional login
                  */
-                do_action('dt_custom_login_admin_fields', $dt_custom_login );
+                do_action( 'dt_custom_login_admin_fields', $dt_custom_login );
                 ?>
                 <tr>
                     <td>
@@ -140,11 +140,11 @@ class Disciple_Tools_Custom_Login_Tab_General {
         $dt_custom_login = dt_custom_login_vars();
 
         // process POST
-        if ( isset( $_POST[ 'login_nonce' ] )
-            && wp_verify_nonce( sanitize_key( wp_unslash( $_POST[ 'login_nonce' ] ) ), 'login' . get_current_user_id() ) )  {
+        if ( isset( $_POST['login_nonce'] )
+            && wp_verify_nonce( sanitize_key( wp_unslash( $_POST['login_nonce'] ) ), 'login' . get_current_user_id() ) ) {
 
             // process optional login methods
-            $post_vars = dt_recursive_sanitize_array($_POST);
+            $post_vars = dt_recursive_sanitize_array( $_POST );
             $dt_custom_login = apply_filters( 'dt_custom_login_admin_update_fields', $post_vars );
 
         }

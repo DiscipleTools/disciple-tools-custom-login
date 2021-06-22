@@ -15,7 +15,7 @@ class Disciple_Tools_Custom_Login_Privacy extends DT_Custom_Login_Page_Base
         parent::__construct();
 
         $url = dt_get_url_path();
-        if ( ( 'privacy-policy' === substr( $url, 0, 14 ) )  ) {
+        if ( ( 'privacy-policy' === substr( $url, 0, 14 ) ) ) {
             add_action( "template_redirect", [ $this, 'theme_redirect' ] );
 
             add_filter( 'dt_blank_access', function(){ return true;

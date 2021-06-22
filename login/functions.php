@@ -7,7 +7,7 @@
 add_action( 'init', 'dt_custom_login_redirect_login_page' );
 function dt_custom_login_redirect_login_page() {
     if ( isset( $_SERVER['REQUEST_URI'] ) && !empty( $_SERVER['REQUEST_URI'] ) ) {
-        $login_page  = dt_custom_login_url('login');
+        $login_page  = dt_custom_login_url( 'login' );
         $page_viewed = substr( basename( sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ) ) ), 0, 12 );
 
         if ( $page_viewed == "wp-login.php" && isset( $_GET['action'] ) && $_GET['action'] === 'rp' ) {
@@ -15,17 +15,17 @@ function dt_custom_login_redirect_login_page() {
         }
 
         if ( $page_viewed == "wp-login.php" && isset( $_GET['action'] ) && $_GET['action'] === 'resetpass' ) {
-            wp_redirect( dt_custom_login_url('resetpass') );
+            wp_redirect( dt_custom_login_url( 'resetpass' ) );
             exit;
         }
 
         if ( $page_viewed == "wp-login.php" && isset( $_GET['action'] ) && $_GET['action'] === 'logout' ) {
-            wp_redirect( dt_custom_login_url('logout') );
+            wp_redirect( dt_custom_login_url( 'logout' ) );
             exit;
         }
 
         if ( $page_viewed == "wp-login.php" && isset( $_SERVER['REQUEST_METHOD'] ) && $_SERVER['REQUEST_METHOD'] == 'GET' ) {
-            wp_redirect( dt_custom_login_url('login') );
+            wp_redirect( dt_custom_login_url( 'login' ) );
             exit;
         }
     }
@@ -35,7 +35,7 @@ function dt_custom_login_vars() : array {
     /**
      * Register variables for login
      */
-    return apply_filters('register_dt_custom_login_vars', $vars = [] );
+    return apply_filters( 'register_dt_custom_login_vars', $vars = [] );
 }
 
 function dt_custom_login_url( string $name ) : string {
@@ -44,7 +44,7 @@ function dt_custom_login_url( string $name ) : string {
     $login_url = $dt_custom_login['login_url'] ?? '';
     $redirect_url = $dt_custom_login['redirect_url'] ?? '';
 
-    switch( $name ) {
+    switch ( $name ) {
         case 'home':
             return trailingslashit( site_url() );
         case 'login':
@@ -70,13 +70,13 @@ function dt_custom_login_url( string $name ) : string {
 
 
 function dt_custom_login_spinner() : string {
-    return plugin_dir_url(__DIR__) . 'spinner.svg';
+    return plugin_dir_url( __DIR__ ) . 'spinner.svg';
 }
 /**
  * Changes the logo link from wordpress.org to your site
  */
 function dt_custom_login_site_url() {
-    return dt_custom_login_url('login');
+    return dt_custom_login_url( 'login' );
 }
 add_filter( 'login_headerurl', 'dt_custom_login_site_url' );
 
@@ -93,7 +93,7 @@ add_filter( 'login_headertitle', 'dt_custom_login_login_title' );
 /* Where to go if a login failed */
 add_action( 'wp_login_failed', 'dt_custom_login_custom_login_failed' );
 function dt_custom_login_custom_login_failed() {
-    $login_page  = dt_custom_login_url('login');
+    $login_page  = dt_custom_login_url( 'login' );
     wp_redirect( $login_page . '?login=failed' );
     exit;
 }
@@ -101,7 +101,7 @@ function dt_custom_login_custom_login_failed() {
 /* Where to go if any of the fields were empty */
 add_filter( 'authenticate', 'dt_custom_login_verify_user_pass', 1, 3 );
 function dt_custom_login_verify_user_pass( $user, $username, $password) {
-    $login_page  = dt_custom_login_url('login');
+    $login_page  = dt_custom_login_url( 'login' );
     if ($username == "" || $password == "") {
         wp_redirect( $login_page . "?login=empty" );
         exit;
@@ -109,16 +109,16 @@ function dt_custom_login_verify_user_pass( $user, $username, $password) {
 }
 add_filter( 'wp_signup_location', 'dt_custom_login_multisite_signup_location', 99, 1 );
 function dt_custom_login_multisite_signup_location( $url ) {
-    $url = dt_custom_login_url('login');
+    $url = dt_custom_login_url( 'login' );
     return $url;
 }
 add_filter( 'register_url', 'dt_custom_login_multisite_register_location', 99, 1 );
 function dt_custom_login_multisite_register_location( $url ) {
-    $url = dt_custom_login_url('register');
+    $url = dt_custom_login_url( 'register' );
     return $url;
 }
 
 add_filter( 'login_url', 'dt_custom_login_login_url', 99, 3 );
 function dt_custom_login_login_url(){
-    return dt_custom_login_url('login');
+    return dt_custom_login_url( 'login' );
 }

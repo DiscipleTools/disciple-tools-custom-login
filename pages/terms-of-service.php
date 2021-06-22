@@ -15,7 +15,7 @@ class Disciple_Tools_Custom_Login_Terms extends DT_Custom_Login_Page_Base
         parent::__construct();
 
         $url = dt_get_url_path();
-        if ( ( 'terms-of-service' === substr( $url, 0, 16 ) )  ) {
+        if ( ( 'terms-of-service' === substr( $url, 0, 16 ) ) ) {
             add_action( "template_redirect", [ $this, 'theme_redirect' ] );
 
             add_filter( 'dt_blank_access', function(){ return true;

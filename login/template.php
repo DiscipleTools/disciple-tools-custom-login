@@ -11,7 +11,7 @@ if ( isset( $_GET['action'] ) && 'logout' === $_GET['action'] ) {
     exit;
 }
 if ( is_user_logged_in() ) {
-    wp_safe_redirect( dt_custom_login_url( 'redirect' ));
+    wp_safe_redirect( dt_custom_login_url( 'redirect' ) );
     exit;
 }
 
@@ -98,7 +98,7 @@ switch ($request_action) {
                             <div class="cell">
                                 <div class="wp_lostpassword_form">
                                     <?php if ( ! $sent ) : ?>
-                                        <form name="lostpasswordform" id="lostpasswordform" action="<?php echo esc_url( dt_custom_login_url( 'lostpassword' )); ?>" method="post">
+                                        <form name="lostpasswordform" id="lostpasswordform" action="<?php echo esc_url( dt_custom_login_url( 'lostpassword' ) ); ?>" method="post">
                                             <?php wp_nonce_field( 'retrieve_password', 'retrieve_password_nonce', false, true ) ?>
                                             <p>
                                                 <label for="user_login" ><?php echo esc_html__( 'Email Address', 'dt_custom_login' ); ?><br />
@@ -182,10 +182,10 @@ switch ($request_action) {
         do_action( 'validate_password_reset', $form_errors, $user );
 
     if ( ( ! $form_errors->get_error_code() ) && isset( $_POST['pass1'] ) && !empty( $_POST['pass1'] ) ) {
-        reset_password( $user, $_POST['pass1'] );
-        setcookie( $rp_cookie, ' ', time() - YEAR_IN_SECONDS, $rp_path, COOKIE_DOMAIN, is_ssl(), true );
-        // @codingStandardsIgnoreEnd
-        ?>
+			reset_password( $user, $_POST['pass1'] );
+			setcookie( $rp_cookie, ' ', time() - YEAR_IN_SECONDS, $rp_path, COOKIE_DOMAIN, is_ssl(), true );
+			// @codingStandardsIgnoreEnd
+            ?>
         <div id="content">
         <div id="login">
             <br>
@@ -199,12 +199,12 @@ switch ($request_action) {
                 <div class="cell medium-3 large-4"></div>
             </div>
         </div>
-    <?php
+            <?php
 
-    exit;
-    }
+            exit;
+        }
 
-    ?>
+        ?>
         <style>
             meter{
                 width:100%;
@@ -422,7 +422,7 @@ switch ($request_action) {
                                                 <script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit" async defer></script>
                                             <?php // @codingStandardsIgnoreEnd
                                             endif;
-                                             ?>
+                                            ?>
                                             <script>
                                                 var strength = {
                                                     0: "Worst",
@@ -500,7 +500,7 @@ switch ($request_action) {
 
     case 'login' :
     default:
-    ?>
+        ?>
 
         <div id="content">
             <div id="login">
@@ -581,15 +581,15 @@ function dt_form_links() {
                     }
 
                     // registration link
-                    if ( get_option( 'users_can_register' ) && strpos( $dt_url, '?action=register') === false  ) {
-                       ?>
+                    if ( get_option( 'users_can_register' ) && strpos( $dt_url, '?action=register' ) === false ) {
+                        ?>
                        &nbsp;|&nbsp;
                        <a href="<?php echo esc_url( dt_custom_login_url( 'register' ) ) ?>"><?php esc_html_e( 'Register', 'dt_custom_login' ) ?></a>
                         <?php
                     }
 
-                    if ( strpos( $dt_url, '?action=lostpassword') === false  ) {
-                       ?>
+                    if ( strpos( $dt_url, '?action=lostpassword' ) === false ) {
+                        ?>
                       |&nbsp;
                     <a href="<?php echo esc_url( dt_custom_login_url( 'lostpassword' ) ); ?>"><?php esc_html_e( 'Lost your password?', 'dt_custom_login' ); ?></a>
                         <?php
