@@ -42,6 +42,8 @@ class DT_Custom_Login_Facebook {
             require_once( plugin_dir_path(__DIR__) . 'vendor/autoload.php' );
             add_filter( 'dt_allow_rest_access', [ $this, '_authorize_url' ], 10, 1 );
             add_action( 'rest_api_init', array( $this,  'add_api_routes' ) );
+
+            add_action( 'additional_login_buttons', 30, 1 );
         }
     }
 
@@ -57,7 +59,7 @@ class DT_Custom_Login_Facebook {
         ?>
         <tr>
             <td colspan="2">
-                Facebook
+                <strong>Facebook</strong>
             </td>
         </tr>
         <tr>
@@ -76,6 +78,16 @@ class DT_Custom_Login_Facebook {
                 <input class="regular-text" name="facebook_secret_key" placeholder="Facebook Secret Key" value="<?php echo $dt_custom_login['facebook_secret_key'] ?>"/><br>
             </td>
         </tr>
+        <?php
+    }
+
+    public function additional_login_buttons( $dt_custom_login ) {
+        ?>
+        <?php if ( isset( $dt_custom_login['facebook_public_key'] ) && ! empty( $dt_custom_login['facebook_public_key'] ) ) : ?>
+            <p class="facebook_elements" style="display:none;">
+                <?php dt_custom_login_facebook_login_button(); ?>
+            </p>
+        <?php endif; ?>
         <?php
     }
 

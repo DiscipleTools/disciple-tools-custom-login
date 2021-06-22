@@ -86,7 +86,7 @@ switch ($request_action) {
                     <div class="cell callout medium-6 large-4">
                         <div class="grid-x grid-padding-x grid-padding-y">
                             <div class="cell center">
-                                <h1 style="color:gray;font-size: 14px;margin:0;padding:5px;font-weight: normal;"><?php esc_html_e( "Get new password", 'dt_custom_login' ) ?></h1>
+                                <h1 ><?php esc_html_e( "Get new password", 'dt_custom_login' ) ?></h1>
                             </div>
                             <?php if ( ! empty( $form_errors->errors ) ) : ?>
                                 <div class="cell alert callout">
@@ -124,25 +124,7 @@ switch ($request_action) {
                     </div>
                     <div class="cell medium-3 large-4"></div>
                 </div>
-                <div class="grid-x grid-padding-x">
-                    <div class="cell medium-3 large-4"></div>
-                    <div class="cell medium-6 large-4">
-                        <p>
-                            <?php if ( ! isset( $_GET['checkemail'] ) || ! in_array( wp_unslash( $_GET['checkemail'] ), array( 'confirm', 'newpass' ) ) ) : ?>
-
-                                <a href="<?php echo esc_url( dt_custom_login_url( 'home' ) ) ?>"><?php esc_html_e( 'Home', 'dt_custom_login' ) ?></a>
-                                &nbsp;|&nbsp;
-                                <a href="<?php echo esc_url( dt_custom_login_url( 'login' ) ) ?>"><?php esc_html_e( 'Login', 'dt_custom_login' ) ?></a>
-                                &nbsp;|&nbsp;
-                                <a href="<?php echo esc_url( dt_custom_login_url( 'register' ) ) ?>"><?php esc_html_e( 'Register', 'dt_custom_login' ) ?></a>
-                                &nbsp;|&nbsp;
-                                <a href="<?php echo esc_url( dt_custom_login_url( 'lostpassword' ) ); ?>"><?php esc_html_e( 'Lost your password?', 'dt_custom_login' ); ?></a>
-
-                            <?php endif; ?>
-                        </p>
-                    </div>
-                    <div class="cell medium-3 large-4"></div>
-                </div>
+                <?php dt_form_links() ?>
 
             </div>
         </div>
@@ -354,24 +336,14 @@ switch ($request_action) {
                     <div class="cell medium-3 large-4"></div>
                     <div class="cell callout medium-6 large-4">
                         <div class="grid-x grid-padding-x grid-padding-y">
-                            <div class="cell center" style="padding-bottom: 0;">
-                                <span style="font-weight: bolder;font-size:2.5em;">
-                                    <?php echo esc_html__( "Let's get started.", 'dt_custom_login' ) ?>
-                                </span>
-                                <h1 style="color:gray;font-size: 14px;margin:0;padding:5px;font-weight: normal;"><?php esc_html_e( "Register", 'dt_custom_login' ) ?></h1>
+                            <div class="cell center" >
+                                <h1 ><?php esc_html_e( "Register", 'dt_custom_login' ) ?></h1>
                             </div>
-
                             <div class="cell">
-                                <?php if ( isset( $dt_custom_login['google_sso_key'] ) && ! empty( $dt_custom_login['google_sso_key'] ) ) : ?>
-                                    <p class="google_elements" style="display:none;">
-                                        <?php dt_custom_login_google_sign_in_button() ?>
-                                    </p>
-                                <?php endif; ?>
-                                <?php if ( isset( $dt_custom_login['facebook_public_key'] ) && ! empty( $dt_custom_login['facebook_public_key'] ) ) : ?>
-                                    <p class="facebook_elements" style="display:none;">
-                                        <?php dt_custom_login_facebook_login_button(); ?>
-                                    </p>
-                                <?php endif; ?>
+                                <?php
+                                /** Use this action to display additional buttons */
+                                do_action( 'additional_login_buttons', $dt_custom_login )
+                                ?>
 
                                 <hr />
 
@@ -404,28 +376,32 @@ switch ($request_action) {
                                                 <form action="" method="post" data-abide novalidate>
                                                     <?php wp_nonce_field( 'login_form', 'login_form_nonce' ) ?>
                                                     <div data-abide-error class="alert callout" style="display: none;">
-                                                        <p><i class="fi-alert"></i><?php esc_html_e( 'There are some errors in your form.', 'location_grid' ) ?></p>
+                                                        <p><i class="fi-alert"></i><?php esc_html_e( 'There are some errors in your form.', 'dt_custom_login' ) ?></p>
                                                     </div>
                                                     <div class="grid-container">
                                                         <div class="grid-x grid-margin-x">
                                                             <div class="cell small-12">
-                                                                <label for="email"><?php esc_html_e( 'Email', 'location_grid' ) ?> <strong>*</strong></label>
+                                                                <label for="display_name"><?php esc_html_e( 'Display Name (optional)', 'dt_custom_login' ) ?> </label>
+                                                                <input type="text" name="display_name" id="display_name" value="">
+                                                            </div>
+                                                            <div class="cell small-12">
+                                                                <label for="email"><?php esc_html_e( 'Email', 'dt_custom_login' ) ?> <strong>*</strong></label>
                                                                 <input type="text" name="email" id="email" value="" required pattern="email">
                                                             </div>
                                                             <div class="cell small-12">
-                                                                <label><?php esc_html_e( 'Password Required', 'location_grid' ) ?> <strong>*</strong>
+                                                                <label><?php esc_html_e( 'Password Required', 'dt_custom_login' ) ?> <strong>*</strong>
                                                                     <input type="password" id="password" name="password" placeholder="yeti4preZ" aria-errormessage="password-error-1" required >
                                                                     <span class="form-error" id="password-error-1">
-                                                                        <?php esc_html_e( 'Password required', 'location_grid' ) ?>
+                                                                        <?php esc_html_e( 'Password required', 'dt_custom_login' ) ?>
                                                                       </span>
                                                                 </label>
                                                                 <meter max="4" id="password-strength-meter" value="0"></meter>
                                                             </div>
                                                             <div class="cell small-12">
-                                                                <label><?php esc_html_e( 'Re-enter Password', 'location_grid' ) ?> <strong>*</strong>
+                                                                <label><?php esc_html_e( 'Re-enter Password', 'dt_custom_login' ) ?> <strong>*</strong>
                                                                     <input type="password" placeholder="yeti4preZ" aria-errormessage="password-error-2" data-equalto="password">
                                                                     <span class="form-error" id="password-error-2">
-                                                                    <?php esc_html_e( 'Passwords do not match. Please, try again.', 'location_grid' ) ?>
+                                                                    <?php esc_html_e( 'Passwords do not match. Please, try again.', 'dt_custom_login' ) ?>
                                                                   </span>
                                                                 </label>
                                                             </div>
@@ -434,19 +410,19 @@ switch ($request_action) {
                                                             <div class="g-recaptcha" id="g-recaptcha"></div><br>
                                                         </div>
                                                         <div class="cell small-12">
-                                                            <input type="submit" class="button button-primary" id="submit"  value="<?php esc_html_e( 'Register', 'location_grid' ) ?>" disabled />
+                                                            <input type="submit" class="button button-primary" id="submit"  value="<?php esc_html_e( 'Register', 'dt_custom_login' ) ?>" disabled />
                                                         </div>
                                                     </div>
                                                 </form>
                                             </div>
 
-                                            <?php // @codingStandardsIgnoreStart
+                                            <?php /* @codingStandardsIgnoreStart
                                             if ( ! empty( $dt_custom_login['google_captcha_client_key'] ) ) :
                                                 ?>
                                                 <script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit" async defer></script>
                                             <?php // @codingStandardsIgnoreEnd
                                             endif;
-                                            ?>
+                                            */ ?>
                                             <script>
                                                 var strength = {
                                                     0: "Worst",
@@ -478,23 +454,7 @@ switch ($request_action) {
                     </div>
                     <div class="cell medium-3 large-4"></div>
                 </div>
-                <div class="grid-x grid-padding-x">
-                    <div class="cell medium-3 large-4"></div>
-                    <div class="cell medium-6 large-4">
-                        <p>
-                            <?php if ( ! isset( $_GET['checkemail'] ) || ! in_array( wp_unslash( $_GET['checkemail'] ), array( 'confirm', 'newpass' ) ) ) : ?>
-
-                                <a href="<?php echo esc_url( dt_custom_login_url( 'home' ) ) ?>"><?php esc_html_e( 'Home', 'dt_custom_login' ) ?></a>
-                                &nbsp;|&nbsp;
-                                <a href="<?php echo esc_url( dt_custom_login_url( 'login' ) ) ?>"><?php esc_html_e( 'Login', 'dt_custom_login' ) ?></a>
-                                &nbsp;|&nbsp;
-                                <a href="<?php echo esc_url( dt_custom_login_url( 'lostpassword' ) ); ?>"><?php esc_html_e( 'Lost your password?', 'dt_custom_login' ); ?></a>
-
-                            <?php endif; ?>
-                        </p>
-                    </div>
-                    <div class="cell medium-3 large-4"></div>
-                </div>
+                <?php dt_form_links() ?>
             </div>
         </div>
 
@@ -550,67 +510,47 @@ switch ($request_action) {
                     <div class="cell callout medium-6 large-4">
                         <div class="grid-x grid-padding-x grid-padding-y">
                             <div class="cell center">
-                                <!-- <img src="<?php echo esc_url( get_theme_file_uri( '/assets/images/dt_custom_login-logo-white.png' ) ) ?>" alt="dt_custom_login logo" /> -->
-                                <h1 style="color:gray;font-size: 14px;margin:0;padding:5px;font-weight: normal;"><?php esc_html_e( "Login", 'dt_custom_login' ) ?></h1>
+                                <h1 ><?php esc_html_e( "Login", 'dt_custom_login' ) ?></h1>
                             </div>
-                            <?php
-                            if ( isset( $_GET['login'] ) && $_GET['login'] === 'failed' ) {
-                                ?>
-                                <div class="callout warning cell center">
-                                    <?php echo esc_html__( 'Username or password does not match. Try again.', 'dt_custom_login' ); ?>
-                                </div>
+                            <div class="cell">
                                 <?php
-                            }
-                            ?>
-                            <?php if ( isset( $dt_custom_login['google_sso_key'] ) && ! empty( $dt_custom_login['google_sso_key'] ) ) : ?>
-                                    <p class="google_elements" style="display:none;">
-                                        <?php dt_custom_login_google_sign_in_button() ?>
-                                    </p>
-                                <?php endif; ?>
-                                <?php if ( isset( $dt_custom_login['facebook_public_key'] ) && ! empty( $dt_custom_login['facebook_public_key'] ) ) : ?>
-                                    <p class="facebook_elements" style="display:none;">
-                                        <?php dt_custom_login_facebook_login_button(); ?>
-                                    </p>
-                                <?php endif; ?>
-
-                            <div class="cell" style="border-top: 1px solid lightgray;">
-                                <div class="wp_login_form">
-                                    <?php
-                                    $args = array(
-                                        'redirect' => dt_custom_login_url( 'redirect' ),
-                                        'id_username' => 'user',
-                                        'id_password' => 'pass',
-                                        'value_remember' => true,
-                                        'label_username' => __( 'Email Address', 'dt_custom_login' ),
-                                        'label_password' => __( 'Password', 'dt_custom_login' ),
-                                        'label_remember' => __( 'Remember Me', 'dt_custom_login' ),
-                                        'label_log_in' => __( 'Login', 'dt_custom_login' ),
-                                        );
-                                        wp_login_form( $args );
+                                if ( isset( $_GET['login'] ) && $_GET['login'] === 'failed' ) {
                                     ?>
+                                    <div class="callout warning cell center">
+                                        <?php echo esc_html__( 'Username or password does not match. Try again.', 'dt_custom_login' ); ?>
+                                    </div>
+                                    <?php
+                                }
+                                ?>
+                                <?php
+                                    /** Use this action to display additional buttons */
+                                    do_action( 'additional_login_buttons', $dt_custom_login )
+                                ?>
+
+                                <div class="cell" >
+                                    <div class="wp_login_form">
+                                        <?php
+                                        $args = array(
+                                            'redirect' => dt_custom_login_url( 'redirect' ),
+                                            'id_username' => 'user',
+                                            'id_password' => 'pass',
+                                            'value_remember' => true,
+                                            'label_username' => __( 'Email Address', 'dt_custom_login' ),
+                                            'label_password' => __( 'Password', 'dt_custom_login' ),
+                                            'label_remember' => __( 'Remember Me', 'dt_custom_login' ),
+                                            'label_log_in' => __( 'Login', 'dt_custom_login' ),
+                                            );
+                                            wp_login_form( $args );
+                                        ?>
+                                    </div>
                                 </div>
                             </div>
+
                         </div>
                     </div>
                     <div class="cell medium-3 large-4"></div>
                 </div>
-                <div class="grid-x grid-padding-x">
-                    <div class="cell medium-3 large-4"></div>
-                    <div class="cell medium-6 large-4">
-                        <p>
-                        <?php if ( ! isset( $_GET['checkemail'] ) || ! in_array( wp_unslash( $_GET['checkemail'] ), array( 'confirm', 'newpass' ) ) ) : ?>
-
-                             <a href="<?php echo esc_url( dt_custom_login_url( 'home' ) ) ?>"><?php esc_html_e( 'Home', 'dt_custom_login' ) ?></a>
-                                &nbsp;|&nbsp;
-                                <a href="<?php echo esc_url( dt_custom_login_url( 'register' ) ) ?>"><?php esc_html_e( 'Register', 'dt_custom_login' ) ?></a>
-                                &nbsp;|&nbsp;
-                                <a href="<?php echo esc_url( dt_custom_login_url( 'lostpassword' ) ); ?>"><?php esc_html_e( 'Lost your password?', 'dt_custom_login' ); ?></a>
-
-                        <?php endif; ?>
-                        </p>
-                    </div>
-                    <div class="cell medium-3 large-4"></div>
-                </div>
+                <?php dt_form_links() ?>
             </div>
         </div>
 
@@ -618,3 +558,48 @@ switch ($request_action) {
     break;
 
 } // end action switch
+
+function dt_form_links() {
+    $dt_custom_login = dt_custom_login_vars();
+    ?>
+    <div class="grid-x grid-padding-x">
+        <div class="cell medium-3 large-4"></div>
+        <div class="cell medium-6 large-4">
+            <p>
+            <?php if ( ! isset( $_GET['checkemail'] ) || ! in_array( wp_unslash( $_GET['checkemail'] ), array( 'confirm', 'newpass' ) ) ) : ?>
+
+                 <a href="<?php echo esc_url( dt_custom_login_url( 'home' ) ) ?>"><?php esc_html_e( 'Home', 'dt_custom_login' ) ?></a>
+
+                    <?php
+                    // login link
+                    $dt_url = dt_get_url_path();
+                    if ( $dt_custom_login['login_url'] !== $dt_url ) {
+                        ?>
+                       &nbsp;|&nbsp;
+                       <a href="<?php echo esc_url( dt_custom_login_url( 'login' ) ) ?>"><?php esc_html_e( 'Login', 'dt_custom_login' ) ?></a>
+                        <?php
+                    }
+
+                    // registration link
+                    if ( get_option( 'users_can_register' ) && strpos( $dt_url, '?action=register') === false  ) {
+                       ?>
+                       &nbsp;|&nbsp;
+                       <a href="<?php echo esc_url( dt_custom_login_url( 'register' ) ) ?>"><?php esc_html_e( 'Register', 'dt_custom_login' ) ?></a>
+                        <?php
+                    }
+
+                    if ( get_option( 'users_can_register' ) && strpos( $dt_url, '?action=lostpassword') === false  ) {
+                       ?>
+                      |&nbsp;
+                    <a href="<?php echo esc_url( dt_custom_login_url( 'lostpassword' ) ); ?>"><?php esc_html_e( 'Lost your password?', 'dt_custom_login' ); ?></a>
+                        <?php
+                    }
+                    ?>
+            <?php endif; ?>
+            </p>
+        </div>
+        <div class="cell medium-3 large-4"></div>
+    </div>
+    <?php
+
+}

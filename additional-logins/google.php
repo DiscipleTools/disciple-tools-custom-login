@@ -41,6 +41,9 @@ class DT_Custom_Login_Google {
             require_once( plugin_dir_path(__DIR__) . 'vendor/autoload.php' );
             add_filter( 'dt_allow_rest_access', [ $this, '_authorize_url' ], 10, 1 );
             add_action( 'rest_api_init', array( $this,  'add_api_routes' ) );
+
+            add_action( 'additional_login_buttons', [ $this, 'additional_login_buttons'], 20, 1 );
+            add_action( 'dt_custom_login_head_top', [ $this, 'dt_custom_login_head_top' ], 20 );
         }
     }
     public function register_dt_custom_login_vars( $vars ) {
@@ -54,7 +57,7 @@ class DT_Custom_Login_Google {
         ?>
         <tr>
             <td colspan="2">
-                Google
+                <strong>Google</strong>
             </td>
         </tr>
         <tr>
@@ -86,6 +89,54 @@ class DT_Custom_Login_Google {
         return $post_vars;
     }
 
+    public function additional_login_buttons( $dt_custom_login ) {
+        ?>
+        <?php if ( isset( $dt_custom_login['google_sso_key'] ) && ! empty( $dt_custom_login['google_sso_key'] ) ) : ?>
+            <div id="my-signin2" style="width: 100%;"></div>
+            <script>
+                function onSuccess(googleUser) {
+                    console.log('Logged in as: ' + googleUser.getBasicProfile().getName());
+                }
+                function onFailure(error) {
+                    console.log(error);
+                }
+                function renderButton() {
+                    gapi.signin2.render('my-signin2', {
+                        'scope': 'profile email',
+                        'width': 500,
+                        'height': 50,
+                        'longtitle': true,
+                        'theme': 'dark',
+                        'onsuccess': onSuccess,
+                        'onfailure': onFailure
+                    });
+                }
+            </script>
+            <script src="https://apis.google.com/js/platform.js?onload=renderButton" async defer></script>
+            <style>
+                .abcRioButtonBlue {
+                    width: 100% !important;
+                }
+            </style>
+            <br>
+        <?php endif; ?>
+        <?php
+    }
+
+    public function dt_custom_login_head_top() {
+        $defaults = dt_custom_login_google_defaults();
+        if ( isset( $defaults['google_sso_key'] ) && ! empty( $defaults['google_sso_key'] ) ) {
+        ?>
+            <meta name="google-signin-client_id" content="20352038920-m4unhfjl5vfrk06clo5l8hudtobb8dq4.apps.googleusercontent.com">
+        <?php
+        }
+    }
+
+    public static function sign_in_button( $type = 'signin' ) {
+        ?>
+
+        <?php
+    }
 
     public function _authorize_url( $authorized ){
         if ( isset( $_SERVER['REQUEST_URI'] ) && strpos( sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ) ), 'location_grid/v1/' ) !== false ) {
@@ -387,6 +438,11 @@ function dt_custom_login_google_sign_in_button( $type = 'signin' ) {
     </script>
     <?php
 }
+
+
+
+
+
 
 function dt_custom_login_google_link_account_button() {
     $label = __( 'Link with Google', 'dt_custom_login' );

@@ -125,6 +125,7 @@ class Disciple_Tools_Custom_Login_Tab_General {
                     <td>
                         <button class="button" type="submit">Save</button>
                     </td>
+                    <td></td>
                 </tr>
                 </tbody>
             </table>
@@ -142,10 +143,10 @@ class Disciple_Tools_Custom_Login_Tab_General {
         if ( isset( $_POST[ 'login_nonce' ] )
             && wp_verify_nonce( sanitize_key( wp_unslash( $_POST[ 'login_nonce' ] ) ), 'login' . get_current_user_id() ) )  {
 
+            // process optional login methods
             $post_vars = dt_recursive_sanitize_array($_POST);
             $dt_custom_login = apply_filters( 'dt_custom_login_admin_update_fields', $post_vars );
 
-            update_option( 'dt_custom_login', $dt_custom_login, true );
         }
 
         return $dt_custom_login;

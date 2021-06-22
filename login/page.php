@@ -6,6 +6,8 @@ function dt_custom_login_defaults() {
     $defaults = get_option( 'dt_custom_login_defaults' );
     if ( empty( $defaults) ) {
         $defaults = [
+            'users_can_register' => get_option( 'users_can_register' ),
+            'default_role' => 'registered',
             'login_url' => 'login',
             'redirect_url' => 'settings',
         ];
@@ -65,20 +67,48 @@ class Disciple_Tools_Custom_Login_Base
     }
 
     public function dt_custom_login_admin_update_fields( $post_vars ) {
+        $defaults = dt_custom_login_defaults();
+
+        // user register
+        if ( isset( $post_vars['users_can_register'] ) ) {
+            if ( $post_vars['users_can_register'] !== $defaults['users_can_register'] ) {
+                $defaults['users_can_register'] = $post_vars['users_can_register'];
+                update_option( 'dt_custom_login_defaults', $defaults, true );
+                update_option( 'users_can_register', 1, true );
+            }
+        } else {
+            if ( ! empty( $defaults['users_can_register'] ) ) {
+                $defaults['users_can_register'] = 0;
+                update_option( 'dt_custom_login_defaults', $defaults, true );
+                update_option( 'users_can_register', 0, true );
+            }
+        }
+
+        // roles
+        if ( isset( $post_vars['default_role'] ) ) {
+            if ( $post_vars['default_role'] !== $defaults['default_role'] ) {
+                $defaults['default_role'] = $post_vars['default_role'];
+                update_option( 'dt_custom_login_defaults', $defaults, true );
+            }
+        }
+
+        // login
         if ( isset( $post_vars['login_url'] ) ) {
-            $defaults = dt_custom_login_defaults();
             if ( $post_vars['login_url'] !== $defaults['login_url'] ) {
                 $defaults['login_url'] = $post_vars['login_url'];
                 update_option( 'dt_custom_login_defaults', $defaults, true );
             }
         }
+
+        // redirect
         if ( isset( $post_vars['redirect_url'] ) ) {
-            $defaults = dt_custom_login_defaults();
             if ( $post_vars['redirect_url'] !== $defaults['redirect_url'] ) {
                 $defaults['redirect_url'] = $post_vars['redirect_url'];
                 update_option( 'dt_custom_login_defaults', $defaults, true );
             }
         }
+
+
 
         return $post_vars;
     }
@@ -87,7 +117,29 @@ class Disciple_Tools_Custom_Login_Base
         ?>
         <tr>
             <td colspan="2">
-                Required fields.
+                <strong>Global Settings</strong>
+            </td>
+        </tr>
+        <tr>
+            <th scope="row"></th>
+            <td> <fieldset><legend class="screen-reader-text"><span><?php _e( 'Membership' ); ?></span></legend><label for="users_can_register">
+                        <input name="users_can_register" type="checkbox" id="users_can_register" value="1" <?php checked( '1', get_option( 'users_can_register' ) ); ?> />
+                        <?php _e( 'Anyone can register' ); ?></label>
+                </fieldset>
+            </td>
+        </tr>
+        <tr>
+            <th scope="row"></th>
+            <td>
+                Default role for new registrations. (Recommended: registered, multiplier, partner)<br>
+                <select name="default_role">
+                    <?php wp_dropdown_roles( $dt_custom_login['default_role'] ?? 'registered' ); ?>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <strong>Navigation</strong>
             </td>
         </tr>
         <tr>
@@ -116,7 +168,7 @@ class Disciple_Tools_Custom_Login_Base
                 ?>
             </td>
             <td>
-                <strong>Redirect URL</strong> <br>(when someone successfully logs in, where do they get redirected)<br>
+                <strong>Success URL</strong> <br>(when someone successfully logs in, where do they get redirected)<br>
                 <strong><?php echo esc_url( site_url('/')) ?></strong><input class="regular-text" name="redirect_url" placeholder="Redirect Page" value="<?php echo $dt_custom_login['redirect_url'] ?>"/> <br>
             </td>
         </tr>
@@ -130,9 +182,11 @@ class Disciple_Tools_Custom_Login_Base
     }
 
     public function _header(){
+        do_action( 'dt_custom_login_head_top' );
         wp_head();
         $this->header_style();
         $this->header_javascript();
+        do_action( 'dt_custom_login_head_bottom' );
 
     }
     public function header_style(){

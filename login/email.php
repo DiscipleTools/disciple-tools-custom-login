@@ -44,7 +44,7 @@ class DT_Custom_Login_Email
         ?>
         <tr>
             <td colspan="2">
-                Captcha
+                <strong>Captcha</strong>
             </td>
         </tr>
         <tr>
@@ -120,6 +120,8 @@ class DT_Custom_Login_Email
             return $error;
         }
 
+        // @todo check if passwords are identical
+
         // sanitize user form input
         $password   = sanitize_text_field( wp_unslash( $_POST['password'] ) );
         $email      = sanitize_email( wp_unslash( $_POST['email'] ) );
@@ -133,6 +135,11 @@ class DT_Custom_Login_Email
         $username   = sanitize_user( $username );
 
 
+        $display_name = $username;
+        if ( isset( $_POST['display_name'] ) ) {
+            $display_name = trim( sanitize_text_field( wp_unslash( $_POST['display_name'] ) ) );
+        }
+
         if ( email_exists( $email ) ) {
             $error->add( __METHOD__, __( 'Sorry. This email is already registered. Try re-setting your password', 'location_grid' ) );
             return $error;
@@ -142,7 +149,15 @@ class DT_Custom_Login_Email
             $username = $username . rand( 0, 9 );
         }
 
-        $user_id = wp_create_user( $username, $password, $email );
+        $userdata = [
+            'user_email' => $email,
+            'user_login' => $username,
+            'display_name' => $display_name,
+            'user_pass' => $password,
+            'role' => $dt_custom_login['default_role'] ?? 'registered'
+        ];
+
+        $user_id = wp_insert_user( $userdata );
 
         if ( is_wp_error( $user_id ) ) {
             $error->add( __METHOD__, __( 'Something went wrong. Sorry. Could you try again?', 'location_grid' ) );
@@ -152,8 +167,6 @@ class DT_Custom_Login_Email
         if ( is_multisite() ) {
             add_user_to_blog( get_current_blog_id(), $user_id, 'subscriber' ); // add user to site.
         }
-
-        // @todo set the default user role
 
         // @todo send to location based on user role
 
