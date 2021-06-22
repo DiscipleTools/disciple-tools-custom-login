@@ -153,7 +153,7 @@ class Disciple_Tools_Custom_Login_Base extends DT_Custom_Login_Page_Base
             </td>
             <td>
                 <strong>Login URL</strong><br>
-                <strong><?php echo esc_url( site_url( '/' ) ) ?></strong><input class="regular-text" name="login_url" placeholder="Login Page" value="<?php echo esc_url( $dt_custom_login['login_url'] ) ?>"/> <br>
+                <strong><?php echo esc_url( site_url( '/' ) ) ?></strong><input class="regular-text" name="login_url" placeholder="Login Page" value="<?php echo esc_attr( $dt_custom_login['login_url'] ) ?>"/> <br>
             </td>
         </tr>
         <tr>
@@ -168,7 +168,7 @@ class Disciple_Tools_Custom_Login_Base extends DT_Custom_Login_Page_Base
             </td>
             <td>
                 <strong>Success URL</strong> <br>(when someone successfully logs in, where do they get redirected)<br>
-                <strong><?php echo esc_url( site_url( '/' ) ) ?></strong><input class="regular-text" name="redirect_url" placeholder="Redirect Page" value="<?php echo esc_url( $dt_custom_login['redirect_url'] ) ?>"/> <br>
+                <strong><?php echo esc_url( site_url( '/' ) ) ?></strong><input class="regular-text" name="redirect_url" placeholder="Redirect Page" value="<?php echo esc_attr( $dt_custom_login['redirect_url'] ) ?>"/> <br>
             </td>
         </tr>
         <?php
