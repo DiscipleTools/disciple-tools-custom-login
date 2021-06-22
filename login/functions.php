@@ -50,6 +50,7 @@ function dt_custom_login_url( string $name ) : string {
         case 'login':
             return trailingslashit( site_url() ) . $login_url;
         case 'redirect':
+        case 'success':
             return trailingslashit( site_url() ) . $redirect_url;
         case 'logout':
             return trailingslashit( site_url() ) . $login_url . '/?action=logout';
