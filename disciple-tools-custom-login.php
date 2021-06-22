@@ -77,7 +77,7 @@ class Disciple_Tools_Custom_Login {
     private function __construct() {
         require_once( 'login/functions.php');
         require_once( 'login/page.php');
-        require_once( 'login/email.php');
+        require_once( 'additional-logins/email.php');
 
         // additional login methods
         $format_files = scandir( plugin_dir_path( __FILE__ ) . '/additional-logins/' );

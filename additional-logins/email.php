@@ -253,7 +253,7 @@ class DT_Custom_Login_Email
         $message .= sprintf( __( 'Username: %s' ), $user_login ) . "\r\n\r\n";
         $message .= __( 'If this was a mistake, just ignore this email and nothing will happen.' ) . "\r\n\r\n";
         $message .= __( 'To reset your password, visit the following address:' ) . "\r\n\r\n";
-        $message .= '<' . home_url('/login/') . "?action=rp&key=$key&login=" . rawurlencode( $user_login ) . ">\r\n";
+        $message .= '<' . dt_custom_login_url('login') . "?action=rp&key=$key&login=" . rawurlencode( $user_login ) . ">\r\n";
 
         /* translators: Password reset email subject. %s: Site name */
         $title = sprintf( __( '[%s] Password Reset' ), $site_name );

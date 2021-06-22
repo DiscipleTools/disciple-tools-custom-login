@@ -1,6 +1,8 @@
 <?php
 if ( ! defined( 'ABSPATH' ) ) { exit; } // Exit if accessed directly
 
+// @todo
+
 function dt_custom_login_google_enabled() : bool {
     $dt_custom_login = dt_custom_login_vars();
     if ( isset( $dt_custom_login['google_sso_key'] ) && ! empty( $dt_custom_login['google_sso_key'] ) ) {
@@ -130,12 +132,6 @@ class DT_Custom_Login_Google {
             <meta name="google-signin-client_id" content="20352038920-m4unhfjl5vfrk06clo5l8hudtobb8dq4.apps.googleusercontent.com">
         <?php
         }
-    }
-
-    public static function sign_in_button( $type = 'signin' ) {
-        ?>
-
-        <?php
     }
 
     public function _authorize_url( $authorized ){
@@ -372,12 +368,12 @@ class DT_Custom_Login_Google {
     public function query_google_email( $email_address ) {
         global $wpdb;
         $result = $wpdb->get_var( $wpdb->prepare( "
-    SELECT user_id
-    FROM $wpdb->usermeta
-    WHERE meta_key = 'google_sso_email'
-      AND meta_value = %s
-      LIMIT 1
-    ", $email_address ) );
+            SELECT user_id
+            FROM $wpdb->usermeta
+            WHERE meta_key = 'google_sso_email'
+              AND meta_value = %s
+              LIMIT 1
+        ", $email_address ) );
 
         if ( ! empty( $result ) ) {
             return $result;

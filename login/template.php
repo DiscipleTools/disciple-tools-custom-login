@@ -416,13 +416,13 @@ switch ($request_action) {
                                                 </form>
                                             </div>
 
-                                            <?php /* @codingStandardsIgnoreStart
+                                            <?php // @codingStandardsIgnoreStart
                                             if ( ! empty( $dt_custom_login['google_captcha_client_key'] ) ) :
                                                 ?>
                                                 <script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit" async defer></script>
                                             <?php // @codingStandardsIgnoreEnd
                                             endif;
-                                            */ ?>
+                                             ?>
                                             <script>
                                                 var strength = {
                                                     0: "Worst",
@@ -588,7 +588,7 @@ function dt_form_links() {
                         <?php
                     }
 
-                    if ( get_option( 'users_can_register' ) && strpos( $dt_url, '?action=lostpassword') === false  ) {
+                    if ( strpos( $dt_url, '?action=lostpassword') === false  ) {
                        ?>
                       |&nbsp;
                     <a href="<?php echo esc_url( dt_custom_login_url( 'lostpassword' ) ); ?>"><?php esc_html_e( 'Lost your password?', 'dt_custom_login' ); ?></a>
