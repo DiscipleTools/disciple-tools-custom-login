@@ -9,7 +9,7 @@ function dt_custom_login_defaults() {
             'users_can_register' => get_option( 'users_can_register' ),
             'default_role' => 'registered',
             'login_url' => 'login',
-            'redirect_url' => 'settings',
+            'redirect_url' => 'contacts',
         ];
         update_option( 'dt_custom_login_defaults', $defaults, true );
     }
