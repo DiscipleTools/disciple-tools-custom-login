@@ -33,11 +33,11 @@ class DT_Custom_Login_Google {
     }
 
     public function __construct() {
-        add_filter( 'register_dt_custom_login_vars', [ $this, 'register_dt_custom_login_vars'], 10, 1 );
-        if ( is_admin() ) {
-            add_action('dt_custom_login_admin_fields', [ $this, 'dt_custom_login_admin_fields' ], 30, 1 );
-            add_filter( 'dt_custom_login_admin_update_fields', [ $this, 'dt_custom_login_admin_update_fields'], 10, 1 );
-        }
+//        add_filter( 'register_dt_custom_login_vars', [ $this, 'register_dt_custom_login_vars'], 10, 1 );
+//        if ( is_admin() ) {
+//            add_action('dt_custom_login_admin_fields', [ $this, 'dt_custom_login_admin_fields' ], 30, 1 );
+//            add_filter( 'dt_custom_login_admin_update_fields', [ $this, 'dt_custom_login_admin_update_fields'], 10, 1 );
+//        }
 
         if ( dt_custom_login_google_enabled() ) {
             require_once( plugin_dir_path(__DIR__) . 'vendor/autoload.php' );
