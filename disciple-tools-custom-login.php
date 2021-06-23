@@ -83,7 +83,6 @@ class Disciple_Tools_Custom_Login {
         require_once( 'login/page.php' );
         require_once( 'pages/privacy-policy.php' ); // {site}/privacy-policy
         require_once( 'pages/terms-of-service.php' ); // {site}/terms-of-service
-        require_once( 'pages/profile.php' ); // {site}/profile
         require_once( 'pages/registration-holding.php' ); // {site}/reghold
 
         // additional login methods
