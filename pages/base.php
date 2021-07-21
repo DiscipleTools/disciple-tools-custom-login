@@ -38,7 +38,7 @@ class DT_Custom_Login_Page_Base
         <?php
     }
     public function _browser_tab_title( $title ){
-        return 'Location Grid';
+        return get_bloginfo('name');
     }
     public function header_javascript(){
         ?>
