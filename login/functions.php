@@ -87,7 +87,7 @@ add_filter( 'login_headerurl', 'dt_custom_login_site_url' );
 function dt_custom_login_login_title() {
     return get_option( 'blogname' );
 }
-add_filter( 'login_headertitle', 'dt_custom_login_login_title' );
+add_filter( 'login_headertext', 'dt_custom_login_login_title' );
 
 
 
