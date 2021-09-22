@@ -1,6 +1,6 @@
 <?php
 /**
- * Plugin Name: Disciple Tools - Custom Login
+ * Plugin Name: Disciple.Tools - Custom Login
  * Plugin URI: https://github.com/DiscipleTools/disciple-tools-custom-login
  * Description: Disciple Tools - Custom Login adds a custom login/registration page with additional SSO options (Google, Facebook).
  * Text Domain: disciple-tools-custom-login
