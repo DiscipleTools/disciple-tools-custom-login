@@ -29,7 +29,7 @@ private static $installed = array (
     'aliases' => 
     array (
     ),
-    'reference' => '6bc680589b18f274ba94c29182f0bc4ab989a5f2',
+    'reference' => 'd007800fe842f78cb42c4e6172927d24a3760b37',
     'name' => '__root__',
   ),
   'versions' => 
@@ -41,7 +41,7 @@ private static $installed = array (
       'aliases' => 
       array (
       ),
-      'reference' => '6bc680589b18f274ba94c29182f0bc4ab989a5f2',
+      'reference' => 'd007800fe842f78cb42c4e6172927d24a3760b37',
     ),
     'dealerdirect/phpcodesniffer-composer-installer' => 
     array (
@@ -63,39 +63,39 @@ private static $installed = array (
     ),
     'firebase/php-jwt' => 
     array (
-      'pretty_version' => 'v5.3.0',
-      'version' => '5.3.0.0',
+      'pretty_version' => 'v5.4.0',
+      'version' => '5.4.0.0',
       'aliases' => 
       array (
       ),
-      'reference' => '3c2d70f2e64e2922345e89f2ceae47d2463faae1',
+      'reference' => 'd2113d9b2e0e349796e72d2a63cf9319100382d2',
     ),
     'google/apiclient' => 
     array (
-      'pretty_version' => 'v2.9.2',
-      'version' => '2.9.2.0',
+      'pretty_version' => 'v2.10.1',
+      'version' => '2.10.1.0',
       'aliases' => 
       array (
       ),
-      'reference' => 'e9ef4c26a044b8d39a46bcf296be795fe24a1849',
+      'reference' => '11871e94006ce7a419bb6124d51b6f9ace3f679b',
     ),
     'google/apiclient-services' => 
     array (
-      'pretty_version' => 'v0.181.0',
-      'version' => '0.181.0.0',
+      'pretty_version' => 'v0.213.0',
+      'version' => '0.213.0.0',
       'aliases' => 
       array (
       ),
-      'reference' => 'a4ea5fd96887d654d10d446b239e1ff60240e2c1',
+      'reference' => '260311821505438eb9208b068da0d849b8ea9baa',
     ),
     'google/auth' => 
     array (
-      'pretty_version' => 'v1.15.1',
-      'version' => '1.15.1.0',
+      'pretty_version' => 'v1.18.0',
+      'version' => '1.18.0.0',
       'aliases' => 
       array (
       ),
-      'reference' => '4e0c9367719df9703e96f5ad613041b87742471c',
+      'reference' => '21dd478e77b0634ed9e3a68613f74ed250ca9347',
     ),
     'guzzlehttp/guzzle' => 
     array (
@@ -124,23 +124,23 @@ private static $installed = array (
       ),
       'reference' => 'dc960a912984efb74d0a90222870c72c87f10c91',
     ),
+    'jumbojett/openid-connect-php' => 
+    array (
+      'pretty_version' => 'v0.9.2',
+      'version' => '0.9.2.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '4f95102af87f86c43e8191ec6e90d9f35ed1ce5f',
+    ),
     'monolog/monolog' => 
     array (
-      'pretty_version' => '2.2.0',
-      'version' => '2.2.0.0',
+      'pretty_version' => '2.3.4',
+      'version' => '2.3.4.0',
       'aliases' => 
       array (
       ),
-      'reference' => '1cb1cde8e8dd0f70cc0fe51354a59acad9302084',
-    ),
-    'paragonie/constant_time_encoding' => 
-    array (
-      'pretty_version' => 'v2.4.0',
-      'version' => '2.4.0.0',
-      'aliases' => 
-      array (
-      ),
-      'reference' => 'f34c2b11eb9d2c9318e13540a1dbc2a3afbd939c',
+      'reference' => '437e7a1c50044b92773b361af77620efb76fff59',
     ),
     'paragonie/random_compat' => 
     array (
@@ -153,12 +153,12 @@ private static $installed = array (
     ),
     'phpseclib/phpseclib' => 
     array (
-      'pretty_version' => '3.0.9',
-      'version' => '3.0.9.0',
+      'pretty_version' => '2.0.33',
+      'version' => '2.0.33.0',
       'aliases' => 
       array (
       ),
-      'reference' => 'a127a5133804ff2f47ae629dd529b129da616ad7',
+      'reference' => 'fb53b7889497ec7c1362c94e61d8127ac67ea094',
     ),
     'psr/cache' => 
     array (
@@ -214,7 +214,7 @@ private static $installed = array (
     array (
       'provided' => 
       array (
-        0 => '1.0.0',
+        0 => '1.0.0 || 2.0.0 || 3.0.0',
       ),
     ),
     'ralouphie/getallheaders' => 

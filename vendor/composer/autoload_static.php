@@ -12,6 +12,7 @@ class ComposerStaticInit825b7ec29d3a7481c55efcfe61775e43
         'c964ee0ededf28c96ebd9db5099ef910' => __DIR__ . '/..' . '/guzzlehttp/promises/src/functions_include.php',
         '37a3dc5111fe8f707ab4c132ef1dbc62' => __DIR__ . '/..' . '/guzzlehttp/guzzle/src/functions_include.php',
         'decc78cc4436b1292c6c0d151b19445c' => __DIR__ . '/..' . '/phpseclib/phpseclib/phpseclib/bootstrap.php',
+        '1f87db08236948d07391152dccb70f04' => __DIR__ . '/..' . '/google/apiclient-services/autoload.php',
         'c65d09b6820da036953a371c8c73a9b1' => __DIR__ . '/..' . '/facebook/graph-sdk/src/Facebook/polyfills.php',
         'a8d3953fd9959404dd22d3dfcd0a79f0' => __DIR__ . '/..' . '/google/apiclient/src/aliases.php',
     );
@@ -19,7 +20,7 @@ class ComposerStaticInit825b7ec29d3a7481c55efcfe61775e43
     public static $prefixLengthsPsr4 = array (
         'p' => 
         array (
-            'phpseclib3\\' => 11,
+            'phpseclib\\' => 10,
         ),
         'P' => 
         array (
@@ -27,7 +28,6 @@ class ComposerStaticInit825b7ec29d3a7481c55efcfe61775e43
             'Psr\\Http\\Message\\' => 17,
             'Psr\\Http\\Client\\' => 16,
             'Psr\\Cache\\' => 10,
-            'ParagonIE\\ConstantTime\\' => 23,
         ),
         'M' => 
         array (
@@ -38,6 +38,7 @@ class ComposerStaticInit825b7ec29d3a7481c55efcfe61775e43
             'GuzzleHttp\\Psr7\\' => 16,
             'GuzzleHttp\\Promise\\' => 19,
             'GuzzleHttp\\' => 11,
+            'Google\\Service\\' => 15,
             'Google\\Auth\\' => 12,
             'Google\\' => 7,
         ),
@@ -53,7 +54,7 @@ class ComposerStaticInit825b7ec29d3a7481c55efcfe61775e43
     );
 
     public static $prefixDirsPsr4 = array (
-        'phpseclib3\\' => 
+        'phpseclib\\' => 
         array (
             0 => __DIR__ . '/..' . '/phpseclib/phpseclib/phpseclib',
         ),
@@ -73,10 +74,6 @@ class ComposerStaticInit825b7ec29d3a7481c55efcfe61775e43
         array (
             0 => __DIR__ . '/..' . '/psr/cache/src',
         ),
-        'ParagonIE\\ConstantTime\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/paragonie/constant_time_encoding/src',
-        ),
         'Monolog\\' => 
         array (
             0 => __DIR__ . '/..' . '/monolog/monolog/src/Monolog',
@@ -92,6 +89,10 @@ class ComposerStaticInit825b7ec29d3a7481c55efcfe61775e43
         'GuzzleHttp\\' => 
         array (
             0 => __DIR__ . '/..' . '/guzzlehttp/guzzle/src',
+        ),
+        'Google\\Service\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/google/apiclient-services/src',
         ),
         'Google\\Auth\\' => 
         array (
@@ -112,16 +113,6 @@ class ComposerStaticInit825b7ec29d3a7481c55efcfe61775e43
         'Dealerdirect\\Composer\\Plugin\\Installers\\PHPCodeSniffer\\' => 
         array (
             0 => __DIR__ . '/..' . '/dealerdirect/phpcodesniffer-composer-installer/src',
-        ),
-    );
-
-    public static $prefixesPsr0 = array (
-        'G' => 
-        array (
-            'Google_Service_' => 
-            array (
-                0 => __DIR__ . '/..' . '/google/apiclient-services/src',
-            ),
         ),
     );
 
@@ -148,6 +139,8 @@ class ComposerStaticInit825b7ec29d3a7481c55efcfe61775e43
         'Google_Task_Retryable' => __DIR__ . '/..' . '/google/apiclient/src/aliases.php',
         'Google_Task_Runner' => __DIR__ . '/..' . '/google/apiclient/src/aliases.php',
         'Google_Utils_UriTemplate' => __DIR__ . '/..' . '/google/apiclient/src/aliases.php',
+        'Jumbojett\\OpenIDConnectClient' => __DIR__ . '/..' . '/jumbojett/openid-connect-php/src/OpenIDConnectClient.php',
+        'Jumbojett\\OpenIDConnectClientException' => __DIR__ . '/..' . '/jumbojett/openid-connect-php/src/OpenIDConnectClient.php',
     );
 
     public static function getInitializer(ClassLoader $loader)
@@ -155,7 +148,6 @@ class ComposerStaticInit825b7ec29d3a7481c55efcfe61775e43
         return \Closure::bind(function () use ($loader) {
             $loader->prefixLengthsPsr4 = ComposerStaticInit825b7ec29d3a7481c55efcfe61775e43::$prefixLengthsPsr4;
             $loader->prefixDirsPsr4 = ComposerStaticInit825b7ec29d3a7481c55efcfe61775e43::$prefixDirsPsr4;
-            $loader->prefixesPsr0 = ComposerStaticInit825b7ec29d3a7481c55efcfe61775e43::$prefixesPsr0;
             $loader->classMap = ComposerStaticInit825b7ec29d3a7481c55efcfe61775e43::$classMap;
 
         }, null, ClassLoader::class);
