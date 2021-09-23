@@ -1,8 +1,8 @@
 <?php
 /**
- * Plugin Name: Disciple Tools - Custom Login
+ * Plugin Name: Disciple.Tools - Custom Login
  * Plugin URI: https://github.com/DiscipleTools/disciple-tools-custom-login
- * Description: Disciple Tools - Custom Login adds a custom login/registration page with additional SSO options (Google, Facebook).
+ * Description: Disciple.Tools - Custom Login adds a custom login/registration page with additional SSO options (Google, Facebook).
  * Text Domain: disciple-tools-custom-login
  * Domain Path: /languages
  * Version:  0.1
@@ -214,9 +214,9 @@ if ( ! function_exists( 'disciple_tools_custom_login_hook_admin_notice' ) ) {
         global $disciple_tools_custom_login_required_dt_theme_version;
         $wp_theme = wp_get_theme();
         $current_version = $wp_theme->version;
-        $message = "'Disciple Tools - Custom Login' plugin requires 'Disciple Tools' theme to work. Please activate 'Disciple Tools' theme or make sure it is latest version.";
+        $message = "'Disciple.Tools - Custom Login' plugin requires 'Disciple.Tools' theme to work. Please activate 'Disciple.Tools' theme or make sure it is latest version.";
         if ( $wp_theme->get_template() === "disciple-tools-theme" ){
-            $message .= ' ' . sprintf( esc_html( 'Current Disciple Tools version: %1$s, required version: %2$s' ), esc_html( $current_version ), esc_html( $disciple_tools_custom_login_required_dt_theme_version ) );
+            $message .= ' ' . sprintf( esc_html( 'Current Disciple.Tools version: %1$s, required version: %2$s' ), esc_html( $current_version ), esc_html( $disciple_tools_custom_login_required_dt_theme_version ) );
         }
         // Check if it's been dismissed...
         if ( ! get_option( 'dismissed-disciple-tools-custom-login', false ) ) { ?>

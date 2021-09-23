@@ -1,6 +1,6 @@
 [![Build Status](https://travis-ci.com/DiscipleTools/disciple-tools-custom-login.svg?branch=master)](https://travis-ci.com/DiscipleTools/disciple-tools-custom-login)
 
-# Disciple Tools - Custom Login
+# Disciple.Tools - Custom Login
 
 __Kick start your Disciple.Tools plugin project with this template!__
 
@@ -46,7 +46,7 @@ __This plugin is for developers__ who want to extend the Disciple.Tools system f
 ## Recommended
 
 - [Composer](https://getcomposer.org/download/).
-- Disciple Tools Theme installed on a local Wordpress Server ([localwp.com](https://localwp.com) or [MAMP](https://www.mamp.info)).
+- Disciple.Tools Theme installed on a local Wordpress Server ([localwp.com](https://localwp.com) or [MAMP](https://www.mamp.info)).
 
 ## Contribution
 

@@ -1,10 +1,10 @@
 [![Build Status](https://travis-ci.com/DiscipleTools/disciple-tools-custom-login.svg?branch=master)](https://travis-ci.com/DiscipleTools/disciple-tools-custom-login)
 
-# Disciple Tools - Custom Login
+# Disciple.Tools - Custom Login
 
 ## Purpose
 
-Adds a custom login to Disciple Tools system.
+Adds a custom login to Disciple.Tools system.
 
 ## Usage
 
@@ -25,7 +25,7 @@ Adds a custom login to Disciple Tools system.
 
 ## Requirements
 
-- Disciple Tools Theme installed on a Wordpress Server
+- Disciple.Tools Theme installed on a Wordpress Server
 
 ## Installing
 
