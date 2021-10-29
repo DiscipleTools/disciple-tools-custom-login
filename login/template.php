@@ -42,7 +42,7 @@ if ( !in_array( $request_action, array( 'postpass', 'logout', 'lostpassword', 'r
 }
 
 
-switch ($request_action) {
+switch ( $request_action ) {
 
     case 'lostpassword' :
     case 'retrievepassword' :

@@ -38,7 +38,7 @@ class DT_Custom_Login_Page_Base
         <?php
     }
     public function _browser_tab_title( $title ){
-        return get_bloginfo('name');
+        return get_bloginfo( 'name' );
     }
     public function header_javascript(){
         ?>
@@ -101,8 +101,8 @@ class DT_Custom_Login_Page_Base
 
         global $wp_styles;
         if ( isset( $wp_styles ) ) {
-            foreach ($wp_styles->queue as $key => $item) {
-                if ( !in_array( $item, $allowed_css )) {
+            foreach ( $wp_styles->queue as $key => $item ) {
+                if ( !in_array( $item, $allowed_css ) ) {
                     unset( $wp_styles->queue[$key] );
                 }
             }

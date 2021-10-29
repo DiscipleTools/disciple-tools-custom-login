@@ -101,9 +101,9 @@ function dt_custom_login_custom_login_failed() {
 
 /* Where to go if any of the fields were empty */
 add_filter( 'authenticate', 'dt_custom_login_verify_user_pass', 1, 3 );
-function dt_custom_login_verify_user_pass( $user, $username, $password) {
+function dt_custom_login_verify_user_pass( $user, $username, $password ) {
     $login_page  = dt_custom_login_url( 'login' );
-    if ($username == "" || $password == "") {
+    if ( $username == "" || $password == "" ) {
         wp_redirect( $login_page . "?login=empty" );
         exit;
     }
