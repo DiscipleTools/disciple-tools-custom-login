@@ -133,7 +133,7 @@ class DT_Custom_Login_Google {
         $defaults = dt_custom_login_google_defaults();
         if ( isset( $defaults['google_sso_key'] ) && ! empty( $defaults['google_sso_key'] ) ) {
             ?>
-            <meta name="google-signin-client_id" content="<?php echo $defaults['google_sso_key'] ?>">
+            <meta name="google-signin-client_id" content="<?php echo esc_html( $defaults['google_sso_key'] ) ?>">
             <?php
         }
     }
