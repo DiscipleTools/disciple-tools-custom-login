@@ -25,7 +25,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Gets the instance of the `Disciple_Tools_Custom_Login` class.
  *
- * @since  0.1
+ * @since  0.2
  * @access public
  * @return object|bool
  */
